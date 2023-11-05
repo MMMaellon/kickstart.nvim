@@ -93,6 +93,9 @@ require('lazy').setup({
     },
   },
 
+  { 'Hoffs/omnisharp-extended-lsp.nvim' },
+  { 'dense-analysis/ale' }, -- Allows async error checking
+
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -110,7 +113,14 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    init = function()
+      vim.o.timeoutlen = 0
+    end,
+    opts = {},
+  },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -148,14 +158,20 @@ require('lazy').setup({
         end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
       end,
     },
+    { 'jeffkreeftmeijer/vim-numbertoggle', event = 'VeryLazy' },
   },
 
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    -- 'navarasu/onedark.nvim',
+    -- 'sainnhe/sonokai',
+    -- 'tomasr/molokai',
+    'NLKNguyen/papercolor-theme',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      --vim.cmd.colorscheme 'onedark'
+      --vim.cmd.colorscheme 'sonokai'
+      vim.cmd.colorscheme 'papercolor'
     end,
   },
 
@@ -165,25 +181,29 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
-        theme = 'onedark',
+        icons_enabled = true,
+        theme = 'papercolor',
         component_separators = '|',
         section_separators = '',
       },
     },
   },
 
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help ibl`
-    main = 'ibl',
-    opts = {},
-  },
+  -- {
+  --   -- Add indentation guides even on blank lines
+  --   'lukas-reineke/indent-blankline.nvim',
+  --   -- Enable `lukas-reineke/indent-blankline.nvim`
+  --   -- See `:help ibl`
+  --   main = 'ibl',
+  --   opts = {},
+  -- },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
+
+  { 'pocco81/auto-save.nvim', opts = {} },
+
+  { 'jiangmiao/auto-pairs', opts = {}, config = function() end },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -215,11 +235,16 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-  --       These are some example plugins that I've included in the kickstart repository.
-  --       Uncomment any of the lines below to enable them.
-  -- require 'kickstart.plugins.autoformat',
-  -- require 'kickstart.plugins.debug',
+  {
+    'nvim-telescope/telescope-file-browser.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+  },
+
+  {
+    'akinsho/toggleterm.nvim',
+    version = '*',
+    config = true,
+  },
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -246,7 +271,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -292,6 +317,27 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- [[Terminal]]
+require('toggleterm').setup {
+  open_mapping = [[<c-`>]],
+}
+
+-- [[Auto Save]]
+require('auto-save').setup {
+  enabled = true,
+  trigger_events = { 'FocusLost', 'BufLeave', 'InsertLeave', 'TextChanged' },
+  condition = function(buf)
+    local fn = vim.fn
+    local utils = require 'auto-save.utils.data'
+
+    if fn.getbufvar(buf, '&modifiable') == 1 and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) then
+      return true -- met condition(s), can save
+    end
+    return false -- can't save
+  end,
+  write_all_buffers = true,
+}
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -303,7 +349,25 @@ require('telescope').setup {
       },
     },
   },
+  extensions = {
+    file_browser = {
+      theme = 'ivy',
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+      mappings = {
+        ['i'] = {
+          -- your custom insert mode mappings
+        },
+        ['n'] = {
+          -- your custom normal mode mappings
+        },
+      },
+    },
+  },
 }
+
+-- To get telescope-file-browser loaded and working with telescope,
+require('telescope').load_extension 'file_browser'
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -471,6 +535,10 @@ require('mason-lspconfig').setup()
 --
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
+
+local pid = vim.fn.getpid()
+local omnisharp_bin = "C:/Users/MMMaellon/AppData/Local/nvim-data/mason/packages/omnisharp/libexec/OmniSharp.exe"
+
 local servers = {
   -- clangd = {},
   -- gopls = {},
@@ -478,6 +546,13 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+
+  omnisharp = {
+    handlers = {
+      ["textdocument/definition"] = require('omnisharp_extended').handler,
+    },
+    cmd = { omnisharp_bin, '--languageserver', '--hostPID', tostring(pid) },
+  },
 
   lua_ls = {
     Lua = {
@@ -531,9 +606,23 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+    ['<Esc>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.abort()
+      else
+        fallback()
+      end
+    end, { 's' }),
+    ['<CR>'] = cmp.mapping {
+      i = function(fallback)
+        if cmp.visible() and cmp.get_active_entry() then
+          cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
+        else
+          fallback()
+        end
+      end,
+      s = cmp.mapping.confirm { select = true },
+      c = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
     },
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -544,11 +633,16 @@ cmp.setup {
         fallback()
       end
     end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
+    ['<Down>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<Up>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
       else
         fallback()
       end
@@ -559,6 +653,80 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+--Font
+vim.opt.guifont = { 'Fira Code', ':h14' }
+
+--Fix Autocomplete in command mode
+-- Remap keys for navigating the popup menu in command-line mode
+vim.api.nvim_set_keymap('c', '<Up>', 'pumvisible() ? "<Left>" : "<Up>"', { noremap = true, expr = true })
+vim.api.nvim_set_keymap('c', '<Down>', 'pumvisible() ? "<Right>" : "<Down>"', { noremap = true, expr = true })
+vim.api.nvim_set_keymap('c', '<Left>', 'pumvisible() ? "<Up>" : "<Left>"', { noremap = true, expr = true })
+vim.api.nvim_set_keymap('c', '<Right>', 'pumvisible() ? "<Down>" : "<Right>"', { noremap = true, expr = true })
+
+--Set title to file path
+vim.o.title = true
+
+--Stop continuing comments on new lines
+vim.api.nvim_create_autocmd('OptionSet', {
+  callback = function()
+    vim.opt.formatoptions:remove 'c'
+    vim.opt.formatoptions:remove 'r'
+    vim.opt.formatoptions:remove 'o'
+  end,
+  pattern = '*',
+})
+
+--Indent newlines
+vim.o.autoindent = true
+
+--Set proper clipboard
+vim.opt.clipboard = ''
+vim.keymap.set({ 'n', 'x' }, 'y', '"+y')
+vim.keymap.set('n', 'p', '"+p')
+
+--line where the cursor is
+vim.wo.cursorline = true
+
+-- Disable tab for selecting autocomplete suggestions in input mode
+vim.keymap.set('i', '<Tab>', '<Tab>', { noremap = true, silent = false })
+
+-- Disable enter for selecting autocomplete suggestions in input mode
+vim.keymap.set('i', '<CR>', '<CR>', { noremap = true, silent = false })
+
+-- Set keymap for file browser
+-- open file_browser with the path of the current buffer
+vim.keymap.set('n', '<leader>f', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true })
+
+-- Toggle current line or with count
+vim.keymap.set('n', [[<c-/>]], function()
+    return vim.v.count == 0
+          and '<Plug>(comment_toggle_linewise_current)'
+          or '<Plug>(comment_toggle_linewise_count)'
+  end, { expr = true })
+
+-- Toggle in Op-pending mode
+-- vim.keymap.set('n', [[<c-/>]], '<Plug>(comment_toggle_linewise)')
+
+-- Toggle in VISUAL mode
+vim.keymap.set('x', [[<c-/>]], '<Plug>(comment_toggle_linewise_visual)')
+
+--Highlight Errors in RED
+vim.cmd 'highlight SpellBad guifg=#FF4136  guibg=#FF4136'
+vim.cmd 'highlight Error guifg=#FF4136  guibg=#FF4136'
+vim.cmd 'highlight LspDiagnosticsDefaultError guifg=#FF4136  guibg=#85144b'
+vim.cmd 'highlight LspDiagnosticsUnderlineError guifg=#FF4136  guibg=#85144b'
+
+
+-- These next two are needed for omnisharp
+-- Enable filetype-based indenting and plugins
+vim.cmd("filetype plugin indent on")
+-- Enable syntax highlighting
+vim.cmd("syntax enable")
+
+
+--Make Neovide Update in a the background
+vim.g.neovide_refresh_rate_idle = 60
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
