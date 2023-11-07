@@ -93,7 +93,7 @@ require('lazy').setup({
     },
   },
 
-  { 'Hoffs/omnisharp-extended-lsp.nvim' },
+  -- { 'Hoffs/omnisharp-extended-lsp.nvim' },
   { 'dense-analysis/ale' }, -- Allows async error checking
 
   {
@@ -199,11 +199,11 @@ require('lazy').setup({
   -- },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',  opts = {} },
 
   { 'pocco81/auto-save.nvim', opts = {} },
 
-  { 'jiangmiao/auto-pairs', opts = {}, config = function() end },
+  { 'jiangmiao/auto-pairs',   opts = {}, config = function() end },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -333,7 +333,7 @@ require('auto-save').setup {
     if fn.getbufvar(buf, '&modifiable') == 1 and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) then
       return true -- met condition(s), can save
     end
-    return false -- can't save
+    return false  -- can't save
   end,
   write_all_buffers = true,
 }
@@ -397,7 +397,8 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
+      'bash' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -536,9 +537,9 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 
-local pid = vim.fn.getpid()
-local omnisharp_bin = "C:/Users/MMMaellon/AppData/Local/nvim-data/mason/packages/omnisharp/libexec/OmniSharp.exe"
-
+-- local pid = vim.fn.getpid()
+-- local omnisharp_bin = "C:/Users/MMMaellon/AppData/Local/nvim-data/mason/packages/omnisharp/libexec/OmniSharp.exe"
+--
 local servers = {
   -- clangd = {},
   -- gopls = {},
@@ -547,11 +548,18 @@ local servers = {
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
-  omnisharp = {
-    handlers = {
-      ["textdocument/definition"] = require('omnisharp_extended').handler,
+  -- omnisharp = {
+  --   handlers = {
+  --     ["textdocument/definition"] = require('omnisharp_extended').handler,
+  --   },
+  --   cmd = { omnisharp_bin, '--languageserver', '--hostPID', tostring(pid) },
+  -- },
+  vale_ls = {
+    -- capabilities = capabilities,
+    -- filetypes = { 'gitcommit', 'markdown', 'text' },
+    init_options = {
+      configPath = 'C:\\Users\\MMMaellon\\.vale.ini'
     },
-    cmd = { omnisharp_bin, '--languageserver', '--hostPID', tostring(pid) },
   },
 
   lua_ls = {
@@ -586,6 +594,16 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+require('lspconfig').vale_ls.setup{
+  capabilities = capabilities,
+  filetypes = { 'gitcommit', 'markdown', 'text' },
+  init_options = {
+    configPath = 'C:\\Users\\MMMaellon\\.vale.ini'
+  },
+}
+
+-- require('omnisharp_extended').telescope_lsp_definitions()
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -700,10 +718,10 @@ vim.keymap.set('n', '<leader>f', ':Telescope file_browser path=%:p:h select_buff
 
 -- Toggle current line or with count
 vim.keymap.set('n', [[<c-/>]], function()
-    return vim.v.count == 0
-          and '<Plug>(comment_toggle_linewise_current)'
-          or '<Plug>(comment_toggle_linewise_count)'
-  end, { expr = true })
+  return vim.v.count == 0
+      and '<Plug>(comment_toggle_linewise_current)'
+      or '<Plug>(comment_toggle_linewise_count)'
+end, { expr = true })
 
 -- Toggle in Op-pending mode
 -- vim.keymap.set('n', [[<c-/>]], '<Plug>(comment_toggle_linewise)')
