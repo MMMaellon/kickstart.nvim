@@ -6,6 +6,17 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
+  enabled = function()
+    -- disable completion in blank lines
+    -- keep command mode completion enabled when cursor is in a comment
+    if vim.api.nvim_get_mode().mode == 'c' then
+      return true
+    else
+      unpack = unpack or table.unpack
+      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+    end
+  end,
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)

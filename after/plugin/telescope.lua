@@ -8,6 +8,8 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ['<C-h>'] = "which_key",
+        ['<Tab>'] = "select_tab",
       },
     },
   },
@@ -18,6 +20,8 @@ require('telescope').setup {
       hijack_netrw = true,
       prompt_path = true,
       select_buffer = true,
+      grouped = true,
+      auto_depth = true,
     },
   },
 }

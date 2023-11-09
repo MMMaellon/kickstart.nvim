@@ -80,15 +80,20 @@ require('lazy').setup({
 		},
 	},
 
-	-- {
-	-- 	-- Add indentation guides even on blank lines
-	-- 	'lukas-reineke/indent-blankline.nvim',
-	-- 	-- Enable `lukas-reineke/indent-blankline.nvim`
-	-- 	-- See `:help ibl`
-	-- 	main = 'ibl',
-	-- 	opts = {},
+	{
+		-- Add indentation guides even on blank lines
+		'lukas-reineke/indent-blankline.nvim',
+		-- Enable `lukas-reineke/indent-blankline.nvim`
+		-- See `:help ibl`
+		main = 'ibl',
+		opts = {},
+	},
+	-- {'preservim/vim-indent-guides',
+	-- 	config = function()
+	-- 		vim.g.indent_guides_enable_on_vim_startup = 1
+	-- 	end
 	-- },
-	--
+
 	-- "gc" to comment visual regions/lines
 	{ 'numToStr/Comment.nvim',          opts = {} },
 
@@ -147,6 +152,7 @@ require('lazy').setup({
 		"ahmedkhalf/project.nvim",
 		config = function()
 			require('project_nvim').setup {}
+			require('telescope').load_extension('projects')
 		end,
 		opts = {},
 	},
