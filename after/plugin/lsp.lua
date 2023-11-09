@@ -58,10 +58,20 @@ local lsps = {
 
   },
   vale_ls = {
+    initializationParams = {
+      syncOnStartup = true,
+      configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
+    },
     init_options = {
-      configPath = 'C:\\Users\\MMMaellon\\.vale.ini'
+      configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
+      config_path = 'C:\\Users\\MMMaellon\\.vale.ini',
+      syncOnStartup = true,
     },
   },
+  -- prosemd_lsp = {
+  --
+  --   
+  -- }
 }
 
 

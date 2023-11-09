@@ -164,7 +164,8 @@ require('lazy').setup({
 	},
 
 	{
-		'nvimdev/dashboard-nvim',
+		-- 'nvimdev/dashboard-nvim',
+		'MMMaellon/dashboard-nvim',
 		event = 'VimEnter',
 		dependencies = { { 'nvim-tree/nvim-web-devicons' } },
 
@@ -193,6 +194,9 @@ require('lazy').setup({
 	{ 'hrsh7th/cmp-nvim-lsp' },
 	{ 'hrsh7th/nvim-cmp' },
 	{ 'L3MON4D3/LuaSnip' },
+
+	-- Spicy experimental async linting
+	{'dense-analysis/ale'},
 
 	-- special library for better nvim docs when editing configs
 	{ 'folke/neodev.nvim',                opts = {} }, -- opts = {} is the same as calling .setup() later
