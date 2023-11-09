@@ -24,38 +24,39 @@ cmp.setup {
         fallback()
       end
     end, { 's' }),
-    ['<CR>'] = cmp.mapping {
-      -- i = function(fallback)
-      --   if cmp.visible() and cmp.get_active_entry() then
-      --     cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
-      --   else
-      --     fallback()
-      --   end
-      -- end,
-      s = cmp.mapping.confirm { select = true },
-      c = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
-    },
-    ['<Tab>'] = cmp.mapping{
+    ["<CR>"] = cmp.mapping({
+      i = function(fallback)
+        if cmp.visible() and cmp.get_active_entry() then
+          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+        else
+          fallback()
+        end
+      end,
+      s = cmp.mapping.confirm({ select = true }),
+      c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+    }),
+    ["<Tab>"] = cmp.mapping({
+      -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+      i = function(fallback)
+        if cmp.visible() then
+          if cmp.get_active_entry() then
+            cmp.complete()
+          else
+            cmp.select_next_item()
+            cmp.complete()
+          end
+        else
+          fallback()
+        end
+      end,
       c = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
-        elseif luasnip.expand_or_locally_jumpable() then
-          luasnip.expand_or_jump()
         else
-          fallback()
+          -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-z>", true, true, true), "ni", true)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "tn", false)
         end
-      end,
-      i = function(fallback)
-        if cmp.visible() then
-          if not cmp.get_active_entry() then
-            cmp.select_next_item()
-          end
-          cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
-        else
-          fallback()
-        end
-      end,
-      },
+      end }),
     ['<Down>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()

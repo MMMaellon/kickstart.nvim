@@ -34,6 +34,7 @@ vim.keymap.set('i', '<CR>', '<CR>', { noremap = true, silent = false })
 
 vim.keymap.set({ 'n', 'x' }, '<c-c>', '"+y')
 vim.keymap.set({ 'n', 'x' }, '<c-v>', '"+p')
+vim.keymap.set({ 'n', 'x' }, '<c-x>', '"+d')
 vim.keymap.set({ 'n', 'x' }, 'y', '"+y')
 vim.keymap.set('n', 'p', '"+p')
 

@@ -80,17 +80,17 @@ require('lazy').setup({
 		},
 	},
 
-	{
-		-- Add indentation guides even on blank lines
-		'lukas-reineke/indent-blankline.nvim',
-		-- Enable `lukas-reineke/indent-blankline.nvim`
-		-- See `:help ibl`
-		main = 'ibl',
-		opts = {},
-	},
-
+	-- {
+	-- 	-- Add indentation guides even on blank lines
+	-- 	'lukas-reineke/indent-blankline.nvim',
+	-- 	-- Enable `lukas-reineke/indent-blankline.nvim`
+	-- 	-- See `:help ibl`
+	-- 	main = 'ibl',
+	-- 	opts = {},
+	-- },
+	--
 	-- "gc" to comment visual regions/lines
-	{ 'numToStr/Comment.nvim',             opts = {} },
+	{ 'numToStr/Comment.nvim',          opts = {} },
 
 	-- fast marks
 	'theprimeagen/harpoon',
@@ -101,7 +101,32 @@ require('lazy').setup({
 		branch = 'master',
 	},
 
-	{ 'pocco81/auto-save.nvim',            opts = {} },
+	{ 'HiPhish/rainbow-delimiters.nvim' },
+
+	{
+		'pocco81/auto-save.nvim',
+		opts = {
+			enabled = true,
+			execution_message = {
+				message = function()
+					return ""
+				end,
+				dim = 0.18,
+				cleaning_interval = 1250,
+			},
+			trigger_events = { 'FocusLost', 'BufLeave', 'InsertLeave', 'TextChanged' },
+			condition = function(buf)
+				local fn = vim.fn
+				local utils = require 'auto-save.utils.data'
+
+				if fn.getbufvar(buf, '&modifiable') == 1 and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) then
+					return true -- met condition(s), can save
+				end
+				return false -- can't save
+			end,
+			write_all_buffers = true,
+		}
+	},
 
 	{ 'jiangmiao/auto-pairs',              opts = {},         config = function() end },
 	-- {
@@ -119,6 +144,14 @@ require('lazy').setup({
 	},
 
 	{
+		"ahmedkhalf/project.nvim",
+		config = function()
+			require('project_nvim').setup {}
+		end,
+		opts = {},
+	},
+
+	{
 		'akinsho/toggleterm.nvim',
 		version = '*',
 		config = true,
@@ -127,12 +160,8 @@ require('lazy').setup({
 	{
 		'nvimdev/dashboard-nvim',
 		event = 'VimEnter',
-		config = function()
-			require('dashboard').setup {
-				-- config
-			}
-		end,
-		dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+		dependencies = { { 'nvim-tree/nvim-web-devicons' } },
+
 	},
 
 	-- Useful plugin to show you pending keybinds.
