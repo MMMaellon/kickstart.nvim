@@ -1,4 +1,4 @@
--- My Stuff
+--My Stuff
 require('MMMaellon')
 
 -- Plugin Manager
@@ -49,6 +49,7 @@ require('lazy').setup({
 	'nvim-treesitter/nvim-treesitter',
 	dependencies = {
 		'nvim-treesitter/nvim-treesitter-textobjects',
+		'JoosepAlviste/nvim-ts-context-commentstring',
 	},
 	build = ':TSUpdate',
 
@@ -134,11 +135,7 @@ require('lazy').setup({
 	},
 
 	{ 'jiangmiao/auto-pairs',              opts = {},         config = function() end },
-	-- {
-	-- 	    'windwp/nvim-autopairs',
-	-- 	    event = "InsertEnter",
-	-- 	    opts = {} -- this is equalent to setup({}) function
-	-- },
+
 
 	{ 'jeffkreeftmeijer/vim-numbertoggle', event = 'VeryLazy' },
 
@@ -195,11 +192,28 @@ require('lazy').setup({
 	{ 'hrsh7th/nvim-cmp' },
 	{ 'L3MON4D3/LuaSnip' },
 
+	-- extra markdown stuff
+	{
+		"barreiroleo/ltex_extra.nvim",
+		ft = { "markdown", "tex" },
+		dependencies = { "neovim/nvim-lspconfig" },
+		opts = {},
+	},
+
 	-- Spicy experimental async linting
-	{'dense-analysis/ale'},
+	{ 'dense-analysis/ale' },
+	-- { 'prettier/vim-prettier',
+	-- 	opts = {},
+	-- 	config = function()
+	-- 		vim.cmd('!yarn install --frozen-lockfile --production')
+	-- 	end,
+	-- },
 
 	-- special library for better nvim docs when editing configs
-	{ 'folke/neodev.nvim',                opts = {} }, -- opts = {} is the same as calling .setup() later
+	{ 'folke/neodev.nvim',        opts = {} }, -- opts = {} is the same as calling .setup() later
+
+	-- just for glsl shaders
+	{ 'tikhomirov/vim-glsl' },
 
 	{ import = 'MMMaellon/themes' },
 })

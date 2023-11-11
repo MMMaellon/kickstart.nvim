@@ -3,20 +3,6 @@
 require('mason').setup()
 require('mason-lspconfig').setup()
 
-
-local lsp_zero = require('lsp-zero')
-
-lsp_zero.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp_zero.default_keymaps({ buffer = bufnr })
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
-end)
-
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
@@ -46,53 +32,96 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
+
+  -- Create a command `:Format` local to the LSP buffer
+  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+    vim.lsp.buf.format()
+  end, { desc = 'Format current buffer with LSP' })
+  vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format() end, { noremap = true, desc = '[F]ormat' })
 end
+
+local lsp_zero = require('lsp-zero')
+
+lsp_zero.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp_zero.default_keymaps({ buffer = bufnr })
+
+  on_attach(client, bufnr)
+end)
+
 local lsps = {
   lua_ls = {
     Lua = {
-      workspace = { checkThirdParty = false },
+        workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
   omnisharp = {
 
   },
-  vale_ls = {
-    initializationParams = {
-      syncOnStartup = true,
-      configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
-    },
-    init_options = {
-      configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
-      config_path = 'C:\\Users\\MMMaellon\\.vale.ini',
-      syncOnStartup = true,
-    },
-  },
-  -- prosemd_lsp = {
-  --
-  --   
+  -- vale_ls = {
+  --   init_options = {
+  --     configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
+  --     syncOnStartup = true,
+  --   },
+  --   root_dir = function() return require('lspconfig').util.root_pattern('.git') end,
+  -- },
+  -- ltex = {
+  --   settings = {
+  --     ltex = {
+  --       language = 'en-US',
+  --     }
+  --   },
+  --   root_dir = require('lspconfig').util.root_pattern('.git'),
+  --   cmd = "ltex-ls.bat",
+  --   single_file_support = true,
+  -- },
+  -- clangd = {
+  --   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto", "shader", "cginc", "gdshader", "glsl" },
   -- }
 }
 
+-- Ensure the servers above are installed
+local mason_lspconfig = require 'mason-lspconfig'
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
+-- mason_lspconfig.setup_handlers {
+--   function(server_name)
+--     require('lspconfig')[server_name].setup {
+--       capabilities = capabilities,
+--       on_attach = on_attach,
+--       settings = lsps[server_name],
+--       filetypes = (lsps[server_name] or {}).filetypes,
+--     }
+--   end,
+-- }
+
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(lsps),
+  handlers = {
+    lsp_zero.default_setup,
+    function(server_name)
+      require('lspconfig')[server_name].setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = lsps[server_name],
+        filetypes = (lsps[server_name] or {}).filetypes,
+      }
+    end,
+  }
 }
 
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = lsps[server_name],
-      filetypes = (lsps[server_name] or {}).filetypes,
-    }
-  end,
-}
+-- require("ltex_extra").setup {
+--   server_opts = {
+--     capabilities = capabilities,
+--     on_attach = on_attach,
+--     settings = {
+--       ltex = {}
+--     }
+--   },
+-- }

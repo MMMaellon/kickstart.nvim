@@ -38,6 +38,7 @@ local builtin = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {desc = '[f] Find Files'})
+vim.keymap.set("n", "<leader>fp", function () vim.cmd(':Telescope projects') end, {desc = '[p] Find Projects'})
 vim.keymap.set("n", "<leader>gg", builtin.git_files, {desc = '[g] Find Git Files'})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {desc = '[b] Find Buffers'})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {desc = '[h] Find Help Tags'})
