@@ -96,7 +96,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = "../nvim-data/.vim/undodir"
+vim.o.undodir = vim.fn.expand("~/.vim/undo")
 vim.opt.undofile = true
 
 vim.opt.colorcolumn = "160"
