@@ -134,7 +134,7 @@ require('lazy').setup({
 		}
 	},
 
-	{ 'jiangmiao/auto-pairs',              opts = {},         config = function() end },
+	{ 'jiangmiao/auto-pairs',              opts = {fast_wrap = {}},         config = function() end },
 
 
 	{ 'jeffkreeftmeijer/vim-numbertoggle', event = 'VeryLazy' },

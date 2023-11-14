@@ -42,6 +42,9 @@ vim.o.title = true;
 --Indent newlines
 vim.o.autoindent = true
 
+-- Allow arrow keys to wrap lines
+vim.o.whichwrap = vim.o.whichwrap .. '<,>,[,]'
+
 --line where the cursor is
 vim.wo.cursorline = true
 

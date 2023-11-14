@@ -50,12 +50,8 @@ cmp.setup {
       -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
       i = function(fallback)
         if cmp.visible() then
-          if cmp.get_active_entry() then
-            cmp.complete()
-          else
-            cmp.select_next_item()
-            cmp.complete()
-          end
+          cmp.select_next_item()
+          cmp.complete()
         else
           fallback()
         end
