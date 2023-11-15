@@ -6,7 +6,7 @@ I started from kickstart.nvim but have since completely rewrote everything
 
 ### Linux/Mac
 
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+git clone https://github.com/MMMaellon/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 
 ### on Windows (Command Prompt)
 
