@@ -39,6 +39,7 @@ vim.keymap.set({ 'n', 'x' }, '<c-x>', '"+d')
 vim.keymap.set({ 'n', 'x' }, 'y', '"+y')
 vim.keymap.set('n', 'p', '"+p')
 vim.keymap.set('n', 'P', '"+P')
+vim.keymap.set({ 'n', 'x' }, '<m-v>', '<c-v>')
 
 vim.keymap.set('n', [[<c-/>]], function()
   return vim.v.count == 0
@@ -66,4 +67,4 @@ vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
 vim.keymap.set('n', '<leader>j', '<cmd>lnext<CR>zz')
 vim.keymap.set('n', '<leader>k', '<cmd>lprev<CR>zz')
 -- quick find and replace
-vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Space><Backspace>]], {desc = 'Auto :s///g replace'})
+vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Left><Space><Backspace>]], {desc = 'Auto :s///g replace'})

@@ -84,6 +84,10 @@ vim.cmd("syntax enable")
 --Make Neovide Update in a the background
 vim.g.neovide_refresh_rate_idle = 60
 
+-- turn on wordwrap
+vim.go.wrap = true;
+vim.o.showbreak = '↳ ';
+vim.wo.linebreak = true;
 
 --stolen from theprimeagen
 vim.opt.tabstop = 4
@@ -103,6 +107,10 @@ vim.o.undodir = vim.fn.expand("~/.vim/undo")
 vim.opt.undofile = true
 
 vim.opt.colorcolumn = "160"
+
+-- Server for Unity
+-- vim.cmd("echo serverstart(\'::1:42069\')")
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

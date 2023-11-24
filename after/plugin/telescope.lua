@@ -21,7 +21,8 @@ require('telescope').setup {
       prompt_path = true,
       select_buffer = true,
       grouped = true,
-      auto_depth = true,
+      -- auto_depth = true,
+      -- depth= 3,
     },
   },
 }

@@ -5,7 +5,35 @@ local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local words_match_active_entry = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and
+      vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match(".*" .. cmp.get_active_entry()) ~= nil
+end
+
+local custom_complete = function()
+  local api = require('cmp.utils.api')
+  local keymap = require('cmp.utils.keymap')
+  local feedkeys = require('cmp.utils.feedkeys')
+  local offset = api.get_cursor()[2]
+  local textEdit = cmp.get_selected_entry().completion_item.textEdit
+  local numCharsToDelete = offset - textEdit.range.start.character
+  local charsToType = textEdit.newText
+  if numCharsToDelete >= 0 then
+    feedkeys.call(keymap.backspace(numCharsToDelete) .. charsToType, 'n')
+  end
+  return false
+end
+
 cmp.setup {
+  preselect = cmp.PreselectMode.Item,
   enabled = function()
     -- disable completion in blank lines
     -- keep command mode completion enabled when cursor is in a comment
@@ -27,7 +55,7 @@ cmp.setup {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
+    -- ['<C-Space>'] = cmp.mapping.complete {},
     ['<Esc>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.abort()
@@ -50,8 +78,16 @@ cmp.setup {
       -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
       i = function(fallback)
         if cmp.visible() then
-          cmp.select_next_item()
-          cmp.complete()
+          if cmp.get_selected_entry() and not cmp.get_active_entry() then
+            -- cmp.confirm()
+            -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+            custom_complete()
+            -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
+          else
+            cmp.select_next_item()
+          end
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
         else
           fallback()
         end
@@ -87,8 +123,7 @@ cmp.setup {
 
 -- If you want insert `(` after select function or method item
 -- local cmp_autopairs = require('nvim-autopairs.completion.cmp')
--- local cmp = require('cmp')
 -- cmp.event:on(
 --   'confirm_done',
---     cmp_autopairs.on_confirm_done()
+--   cmp_autopairs.on_confirm_done()
 -- )

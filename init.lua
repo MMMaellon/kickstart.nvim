@@ -102,10 +102,10 @@ require('lazy').setup({
 	'theprimeagen/harpoon',
 
 	-- multi-line visual mode
-	{
-		'mg979/vim-visual-multi',
-		branch = 'master',
-	},
+	-- {
+	-- 	'mg979/vim-visual-multi',
+	-- 	branch = 'master',
+	-- },
 
 	{ 'HiPhish/rainbow-delimiters.nvim' },
 
@@ -134,8 +134,51 @@ require('lazy').setup({
 		}
 	},
 
-	{ 'jiangmiao/auto-pairs',              opts = {fast_wrap = {}},         config = function() end },
+	{
+		'jiangmiao/auto-pairs',
+		opts = { fast_wrap = {} },
+		config = function()
+			vim.g.AutoPairsShortcutToggle = ''
+			vim.g.AutoPairsShortcutJump = ''
+		end
+	},
 
+	-- {
+	-- 	    'windwp/nvim-autopairs',
+	-- 	    event = "InsertEnter",
+	-- 	    opts = {} -- this is equalent to setup({}) function
+	-- }
+
+	-- mini
+	-- { 'echasnovski/mini.pairs',     version = nil },
+	{ 'echasnovski/mini.operators',        version = nil },
+	-- {
+	-- 	'echasnovski/mini.surround',
+	-- 	version = nil,
+	-- 	opts = {
+	-- 		mappings = {
+	-- 			add = '<leader>sa',
+	-- 			delete = '<leader>sd',
+	-- 		},
+	-- 		search_method = 'cover_or_next',
+	-- 	}
+	-- },
+
+	-- UI improvements
+	{
+		'stevearc/dressing.nvim',
+		opts = {},
+	},
+
+	{
+		'RRethy/vim-illuminate',
+		opts = {},
+		config = function()
+		end,
+	},
+
+	-- tabs
+	{ 'akinsho/bufferline.nvim',           version = "*",     dependencies = 'nvim-tree/nvim-web-devicons' },
 
 	{ 'jeffkreeftmeijer/vim-numbertoggle', event = 'VeryLazy' },
 
@@ -201,7 +244,10 @@ require('lazy').setup({
 	},
 
 	-- Spicy experimental async linting
-	{ 'dense-analysis/ale' },
+	-- { 'dense-analysis/ale' },
+	{ 'mfussenegger/nvim-lint' },
+
+
 	-- { 'prettier/vim-prettier',
 	-- 	opts = {},
 	-- 	config = function()
