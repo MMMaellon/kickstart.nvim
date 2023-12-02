@@ -58,8 +58,8 @@ vim.keymap.set('n', 'J', 'mzJ`z')
 -- keep cursor in place while using c-d and c-u
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
-vim.keymap.set('n', '<PageDown>', '<esc>8jzz')
-vim.keymap.set('n', '<PageUp>', '<esc>8kzz')
+vim.keymap.set('n', '<PageDown>', '<esc>10jzz')
+vim.keymap.set('n', '<PageUp>', '<esc>10kzz')
 -- when searching keep cursor in middle of screen
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
