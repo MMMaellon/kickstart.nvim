@@ -19,15 +19,19 @@ local function is_parent_path(parent, child)
   end
 
   -- Check if the child path starts with the parent path
-  return child:sub(1, #parent) == parent
+  if child:sub(1, #parent) == parent then
+    return true
+  else
+    return false
+  end
   -- return false
 end
 
-local print_project_path = function(path)
-  if not path then
-    return path
+local print_project_path = function(buffer_path)
+  if not buffer_path then
+    return buffer_path
   end
-  local dir = vim.fs.dirname(path)
+  local dir = vim.fs.dirname(vim.fs.normalize(buffer_path))
   for _, project in ipairs(history.session_projects) do
     if is_parent_path(project, dir) then
       -- dir = vim.fs.basename( project)
@@ -37,7 +41,7 @@ local print_project_path = function(path)
   end
 
   return table.concat({
-    vim.fs.basename(path),
+    vim.fs.basename(buffer_path),
     " (",
     dir,
     ")"
@@ -56,7 +60,7 @@ require('lualine').setup(
     sections = {
       lualine_c = { {
         'filename',
-        path = 0,
+        path = 2,
         fmt = print_project_path,
         color = 'MiniStatuslineFileInfo'
 
@@ -65,7 +69,7 @@ require('lualine').setup(
     inactive_sections = {
       lualine_c = { {
         'filename',
-        path = 0,
+        path = 2,
         fmt = print_project_path,
         color = '@comment'
       } },
