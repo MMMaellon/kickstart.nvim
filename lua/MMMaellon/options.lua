@@ -80,6 +80,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.cmd("filetype plugin indent on")
 -- Enable syntax highlighting
 vim.cmd("syntax enable")
+-- Add new splits to the right and below
+vim.o.splitright = true;
+vim.o.splitbelow = true;
 
 --Make Neovide Update in a the background
 vim.g.neovide_refresh_rate_idle = 60

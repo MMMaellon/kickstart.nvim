@@ -71,14 +71,28 @@ require('lazy').setup({
 		-- Set lualine as statusline
 		'nvim-lualine/lualine.nvim',
 		-- See `:help lualine.txt`
-		opts = {
-			options = {
-				icons_enabled = false,
-				theme = 'ayu_mirage',
-				component_separators = '|',
-				section_separators = '',
-			},
-		},
+		-- opts = {
+		-- 	options = {
+		-- 		icons_enabled = false,
+		-- 		theme = 'ayu_mirage',
+		-- 		component_separators = '|',
+		-- 		section_separators = '',
+		-- 	},
+		-- 	sections = {
+		-- 		lualine_c = { {
+		-- 			'filename',
+		-- 			path = 2,
+		-- 			fmt = function(path)
+		-- 				return table.concat({
+		-- 					vim.fs.basename(path),
+		-- 					" (",
+		-- 					path,
+		-- 					")"
+		-- 				})
+		-- 			end
+		-- 		} }
+		-- 	},
+		-- },
 	},
 
 	{
@@ -134,20 +148,28 @@ require('lazy').setup({
 		}
 	},
 
-	{
-		'jiangmiao/auto-pairs',
-		opts = { fast_wrap = {} },
-		config = function()
-			vim.g.AutoPairsShortcutToggle = ''
-			vim.g.AutoPairsShortcutJump = ''
-		end
-	},
+	-- {
+	-- 	'jiangmiao/auto-pairs',
+	-- 	opts = { fast_wrap = {} },
+	-- 	config = function()
+	-- 		vim.g.AutoPairsShortcutToggle = ''
+	-- 		vim.g.AutoPairsShortcutJump = ''
+	-- 	end
+	-- },
 
 	-- {
 	-- 	    'windwp/nvim-autopairs',
 	-- 	    event = "InsertEnter",
 	-- 	    opts = {} -- this is equalent to setup({}) function
 	-- }
+	{
+		'altermo/ultimate-autopair.nvim',
+		event = { 'InsertEnter', 'CmdlineEnter' },
+		branch = 'v0.6', --recomended as each new version will have breaking changes
+		opts = {
+			--Config goes here
+		},
+	},
 
 	-- mini
 	-- { 'echasnovski/mini.pairs',     version = nil },

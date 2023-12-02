@@ -22,7 +22,7 @@ require('which-key').register {
 vim.keymap.set( {'n', 'v'}, '<leader><Tab><Tab>', function() vim.cmd(':BufferLinePick') end, {desc = 'Select Tab'})
 vim.keymap.set( {'n', 'v'}, '<leader><Tab>p', function() vim.cmd(':BufferLineTogglePin') end, {desc = 'Pin Tab'})
 vim.keymap.set( {'n', 'v'}, '<leader><Tab>n', function() vim.cmd(':enew') end, {desc = 'New Tab'})
-vim.keymap.set( {'n', 'v'}, '<leader><Tab>x', function() vim.cmd(':bd') end, {desc = 'Close Tab'})
+vim.keymap.set( {'n', 'v'}, '<leader><Tab>q', function() vim.cmd(':bd') end, {desc = 'Close Tab'})
 vim.keymap.set( {'n', 'v'}, '<leader><Tab>o', function() vim.cmd(':BufferLineCloseOthers') end, {desc = 'Close Other Tabs'})
 vim.keymap.set( {'n', 'v'}, '<leader><Tab><Left>', function() vim.cmd(':BufferLineCyclePrev') end, {desc = 'Previous Tab'})
 vim.keymap.set( {'n', 'v'}, '<leader><Tab><Right>', function() vim.cmd(':BufferLineCycleNext') end, {desc = 'Next Tab'})

@@ -10,7 +10,8 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- vim.keymap.set("n", "<leader><leader>", vim.cmd.Ex)
-vim.keymap.set('n', '<leader><leader>', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true, desc = 'File Browser'} )
+-- vim.keymap.set('n', '<leader><leader>', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true, desc = 'File Browser'} )
+-- defined this in telescope instead
 
 -- Toggle in VISUAL mode
 vim.keymap.set('x', [[<c-/>]], '<Plug>(comment_toggle_linewise_visual)')
@@ -35,6 +36,7 @@ vim.keymap.set('i', '<CR>', '<CR>', { noremap = true, silent = false })
 
 vim.keymap.set({ 'n', 'x' }, '<c-c>', '"+y')
 vim.keymap.set({ 'n', 'x' }, '<c-v>', '"+p')
+vim.keymap.set({ 'i' }, '<c-v>', '<c-r>+')
 vim.keymap.set({ 'n', 'x' }, '<c-x>', '"+d')
 vim.keymap.set({ 'n', 'x' }, 'y', '"+y')
 vim.keymap.set('n', 'p', '"+p')
@@ -56,6 +58,8 @@ vim.keymap.set('n', 'J', 'mzJ`z')
 -- keep cursor in place while using c-d and c-u
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', '<PageDown>', '<esc>8jzz')
+vim.keymap.set('n', '<PageUp>', '<esc>8kzz')
 -- when searching keep cursor in middle of screen
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
