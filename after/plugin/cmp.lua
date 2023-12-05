@@ -24,9 +24,16 @@ local custom_complete = function()
   local feedkeys = require('cmp.utils.feedkeys')
   local offset = api.get_cursor()[2]
   local textEdit = cmp.get_selected_entry().completion_item.textEdit
-  local numCharsToDelete = offset - textEdit.range.start.character
+  -- vim.pretty_print(textEdit)
+  local numCharsToDelete = 0
+  if textEdit.range then
+    numCharsToDelete = offset - textEdit.range.start.character
+  elseif textEdit.replace then
+    -- numCharsToDelete = offset - textEdit.replace.start.character
+    return cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+  end
   local charsToType = textEdit.newText
-  if numCharsToDelete >= 0 then
+  if numCharsToDelete > 0 then
     feedkeys.call(keymap.backspace(numCharsToDelete) .. charsToType, 'n')
   end
   return false

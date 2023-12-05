@@ -113,7 +113,11 @@ require('lazy').setup({
 	{ 'numToStr/Comment.nvim',          opts = {} },
 
 	-- fast marks
-	'theprimeagen/harpoon',
+	{
+		'theprimeagen/harpoon',
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" }
+	},
 
 	-- multi-line visual mode
 	-- {
@@ -167,7 +171,12 @@ require('lazy').setup({
 		event = { 'InsertEnter', 'CmdlineEnter' },
 		branch = 'v0.6', --recomended as each new version will have breaking changes
 		opts = {
-			--Config goes here
+			tabout = { enable = true,
+				hopout = true,
+			},
+			fastwrap = {
+				faster = true,
+			},
 		},
 	},
 
@@ -243,15 +252,31 @@ require('lazy').setup({
 		opts = {},
 	},
 
+	-- Shows diagnostic error messages
+	{
+		'folke/trouble.nvim',
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+
+		}
+	},
+
 	-- undo tree
 	'mbbill/undotree',
 
 	--OH BABY LSPs
 	{ 'williamboman/mason.nvim' },
 	{ 'williamboman/mason-lspconfig.nvim' },
-	{ 'j-hui/fidget.nvim',                tag = 'legacy', opts = {} }, -- status updates for LSPs
+	{
+		'j-hui/fidget.nvim',
+		tag = 'legacy',
+		opts = {}
+	}, -- status updates for LSPs
 
-	{ 'VonHeikemen/lsp-zero.nvim',        branch = 'v3.x' },
+	{
+		'VonHeikemen/lsp-zero.nvim',
+		branch = 'v3.x'
+	},
 	{ 'neovim/nvim-lspconfig' },
 	{ 'hrsh7th/cmp-nvim-lsp' },
 	{ 'hrsh7th/nvim-cmp' },

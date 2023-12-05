@@ -4,6 +4,7 @@ local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 local builtin = require('telescope.builtin')
 local Path = require "plenary.path"
+local trouble = require("trouble.providers.telescope")
 
 -- utility to get absolute path of target directory for create, copy, moving files/folders
 local get_target_dir = function(finder)
@@ -43,8 +44,12 @@ require('telescope').setup {
         ['<C-d>'] = false,
         ['<C-h>'] = "which_key",
         ['<Tab>'] = "select_tab",
+        -- ["<C-t>"] = trouble.open_with_trouble,
         -- ['<c-f>'] = browse_current_path,
       },
+      -- n = {
+      --   ["<C-t>"] = trouble.open_with_trouble,
+      -- }
     },
   },
   extensions = {
@@ -64,7 +69,7 @@ require('telescope').setup {
           ["<c-f>"] = search_current_path,
         },
         ["i"] = {
-          ["<c-f>"] = search_current_path,
+          ["<C-f>"] = search_current_path,
         },
         -- ["c"] = {
         --   ["<c-f>"] = search_current_path,
@@ -83,10 +88,11 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 
-vim.keymap.set('n', '<leader><leader>', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true, desc = 'File Browser'} )
+vim.keymap.set('n', '<leader><leader>', ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
+  { noremap = true, desc = 'File Browser' })
 vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = '[f] Find Files' })
-vim.keymap.set("n", "<leader>fp", function() vim.cmd(':Telescope projects') end, { desc = '[p] Find Projects' })
+vim.keymap.set("n", "<leader>p", function() vim.cmd(':Telescope projects') end, { desc = '[p] Find Projects' })
 vim.keymap.set("n", "<leader>gg", builtin.git_files, { desc = '[g] Find Git Files' })
 vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = '[b] Find Buffers' })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = '[h] Find Help Tags' })

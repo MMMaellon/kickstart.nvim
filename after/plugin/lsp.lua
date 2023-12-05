@@ -53,13 +53,29 @@ end)
 local lsps = {
   lua_ls = {
     Lua = {
-        workspace = { checkThirdParty = false },
+      workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
   omnisharp = {
 
   },
+  rust_analyzer = {
+    imports = {
+      granularity = {
+        group = "module",
+      },
+      prefix = "self",
+    },
+    cargo = {
+      buildScripts = {
+        enable = true,
+      },
+    },
+    procMacro = {
+      enable = true
+    },
+  }
   -- vale_ls = {
   --   init_options = {
   --     configPath = 'C:\\Users\\MMMaellon\\.vale.ini',

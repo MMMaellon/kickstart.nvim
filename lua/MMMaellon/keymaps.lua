@@ -18,10 +18,10 @@ vim.keymap.set('x', [[<c-/>]], '<Plug>(comment_toggle_linewise_visual)')
 
 -- from kickstart
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 --Fix Autocomplete in command mode
 -- Remap keys for navigating the popup menu in command-line mode
@@ -34,13 +34,13 @@ vim.api.nvim_set_keymap('c', '<Right>', 'pumvisible() ? "<Down>" : "<Right>"', {
 -- Disable enter for selecting autocomplete suggestions in input mode
 vim.keymap.set('i', '<CR>', '<CR>', { noremap = true, silent = false })
 
-vim.keymap.set({ 'n', 'x' }, '<c-c>', '"+y')
-vim.keymap.set({ 'n', 'x' }, '<c-v>', '"+p')
+vim.keymap.set({ 'n', 'x', 'v' }, '<c-c>', '"+y')
+vim.keymap.set({ 'n', 'x' , 'v'}, '<c-v>', '"+p')
 vim.keymap.set({ 'i' }, '<c-v>', '<c-r>+')
-vim.keymap.set({ 'n', 'x' }, '<c-x>', '"+d')
-vim.keymap.set({ 'n', 'x' }, 'y', '"+y')
-vim.keymap.set('n', 'p', '"+p')
-vim.keymap.set('n', 'P', '"+P')
+vim.keymap.set({ 'n', 'x', 'v' }, '<c-x>', '"+d')
+vim.keymap.set({ 'n', 'x', 'v' }, 'y', '"+y')
+vim.keymap.set({'n', 'x'}, 'p', '"+p')
+vim.keymap.set({'n', 'x'}, 'P', '"+P')
 vim.keymap.set({ 'n', 'x' }, '<m-v>', '<c-v>')
 
 vim.keymap.set('n', [[<c-/>]], function()
@@ -66,9 +66,25 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 -- prevent Q from starting Ex mode (just type : instead)
 vim.keymap.set('n', 'Q', '<nop>')
 -- jump to prev/next error/lint thing
-vim.keymap.set('n', '<C-j>', '<cmd>cnext<CR>zz')
-vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
-vim.keymap.set('n', '<leader>j', '<cmd>lnext<CR>zz')
-vim.keymap.set('n', '<leader>k', '<cmd>lprev<CR>zz')
+-- vim.keymap.set('n', '<C-j>', '<cmd>lua vim.diagnostic.goto_prev<CR>zz')
+-- vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
+vim.keymap.set('n', '<leader>j', '<cmd>lua vim.diagnostic.goto_next()<CR>zz', {desc = "Previous Diagnostic"})
+vim.keymap.set('n', '<leader>k', '<cmd>lua vim.diagnostic.goto_prev()<CR>zz', {desc = "Next Diagnostic"})
 -- quick find and replace
 vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Left><Space><Backspace>]], {desc = 'Auto :s///g replace'})
+
+-- Quickly edit registers
+vim.keymap.set('n', [[<leader>.]], function()
+  -- Get the current register
+  local current_register = vim.fn.getreg(vim.v.register)
+
+  -- Escape single quotes in the register content
+  local escaped_content = vim.fn.escape(current_register, "'")
+
+  local edited_content = vim.fn.input({prompt = 'Edit macro content: ', default = escaped_content})
+
+  -- Construct the Vimscript command to set the register
+  local command = string.format("let @%s = '%s'", vim.v.register, edited_content)
+  -- Execute the command
+  vim.api.nvim_command(command)
+end)
