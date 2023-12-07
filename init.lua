@@ -181,15 +181,17 @@ require('lazy').setup({
 		'altermo/ultimate-autopair.nvim',
 		event = { 'InsertEnter', 'CmdlineEnter' },
 		branch = 'v0.6', --recomended as each new version will have breaking changes
-		opts = {
-			tabout = {
-				enable = true,
-				hopout = true,
-			},
-			fastwrap = {
-				faster = true,
-			},
-		},
+		-- opts = {
+		-- 	tabout = {
+		-- 		enable = true,
+		-- 		hopout = true,
+		-- 	},
+		-- 	fastwarp = {
+		-- 		mutli = true,
+		-- 		{},
+		-- 		{faster = true, map='<M-f>', imap='<M-f>', cmap='<M-f>'},
+		-- 	},
+		-- },
 	},
 
 	-- mini

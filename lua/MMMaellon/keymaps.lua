@@ -80,12 +80,16 @@ vim.keymap.set('n', [[<leader>"]], function()
 
   -- Escape single quotes in the register content
   local escaped_content = vim.fn.escape(current_register, "'")
-  -- escaped_content = current_register;
 
-  local edited_content = vim.fn.input({prompt = 'Edit macro content: ', default = escaped_content})
+  local edited_content = vim.fn.input({prompt = 'Edit macro content: ', default = escaped_content, cancelreturn = ""})
+
+  if edited_content == "" then
+    return;
+  end
 
   -- Construct the Vimscript command to set the register
   local command = string.format("let @%s = '%s'", vim.v.register, edited_content)
   -- Execute the command
   vim.api.nvim_command(command)
-end)
+end,
+  {desc = "Edit Register"})
