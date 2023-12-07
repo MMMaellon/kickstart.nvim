@@ -152,6 +152,17 @@ require('lazy').setup({
 		}
 	},
 
+	{
+		'rmagatti/auto-session',
+		opts = {},
+		--   config = function()
+		--   require("auto-session").setup {
+		--       log_level = "error",
+		--       auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+		--     }
+		-- end
+	},
+
 	-- {
 	-- 	'jiangmiao/auto-pairs',
 	-- 	opts = { fast_wrap = {} },
@@ -171,7 +182,8 @@ require('lazy').setup({
 		event = { 'InsertEnter', 'CmdlineEnter' },
 		branch = 'v0.6', --recomended as each new version will have breaking changes
 		opts = {
-			tabout = { enable = true,
+			tabout = {
+				enable = true,
 				hopout = true,
 			},
 			fastwrap = {

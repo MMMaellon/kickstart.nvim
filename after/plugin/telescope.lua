@@ -65,7 +65,6 @@ require('telescope').setup {
       -- depth= 3,
       mappings = {
         ["n"] = {
-          ["f"] = search_current_path,
           ["<c-f>"] = search_current_path,
         },
         ["i"] = {

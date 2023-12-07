@@ -56,6 +56,9 @@ local lsps = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
+    filetypes = {
+      'lua',
+    }
   },
   omnisharp = {
 

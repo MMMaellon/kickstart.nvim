@@ -67,31 +67,41 @@ require('dashboard').setup {
     },
     shortcut = {
       {
-        desc = '󰊳 Update',
+        desc = '󰚰 Update',
         group = '@property',
         action = 'Lazy update',
         key = 'u'
       },
       {
-        icon = ' ',
-        icon_hl = '@variable',
-        desc = 'All Projects',
+        -- icon = '󱋣',
+        -- icon_hl = '@variable',
+        desc = '󱋣 All Projects',
         group = 'Label',
         action = "Telescope projects",
         key = 'p',
       },
       {
-        desc = ' Last File',
+        -- icon = ' ',
+        -- icon_hl = '@variable',
+        desc = '  Sessions',
+        group = 'Label',
+        action = function()
+          require("auto-session.session-lens").search_session()
+        end,
+        key = 's',
+      },
+      {
+        desc = '󱀸 Last File',
         group = 'DiagnosticHint',
-        action = function() 
+        action = function()
           vim.cmd('normal! `0')
         end,
         key = 'l',
       },
       {
-        desc = ' Config',
+        desc = ' Config',
         group = 'Number',
-        action = 'Telescope file_browser cwd=~/AppData/Local/nvim/',
+        action = 'e ~/AppData/Local/nvim/init.lua',
         key = 'c',
       },
     },
@@ -101,7 +111,7 @@ require('dashboard').setup {
       end,
     },
     footer = {},
-    packages = {enable = false},
+    packages = { enable = false },
   }
 }
 

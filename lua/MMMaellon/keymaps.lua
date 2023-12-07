@@ -74,12 +74,13 @@ vim.keymap.set('n', '<leader>k', '<cmd>lua vim.diagnostic.goto_prev()<CR>zz', {d
 vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Left><Space><Backspace>]], {desc = 'Auto :s///g replace'})
 
 -- Quickly edit registers
-vim.keymap.set('n', [[<leader>.]], function()
+vim.keymap.set('n', [[<leader>"]], function()
   -- Get the current register
   local current_register = vim.fn.getreg(vim.v.register)
 
   -- Escape single quotes in the register content
   local escaped_content = vim.fn.escape(current_register, "'")
+  -- escaped_content = current_register;
 
   local edited_content = vim.fn.input({prompt = 'Edit macro content: ', default = escaped_content})
 
