@@ -40,7 +40,7 @@ local custom_complete = function()
 end
 
 cmp.setup {
-  preselect = cmp.PreselectMode.Item,
+  preselect = cmp.PreselectMode.None,
   enabled = function()
     -- disable completion in blank lines
     -- keep command mode completion enabled when cursor is in a comment
@@ -79,54 +79,76 @@ cmp.setup {
         end
       end,
       s = cmp.mapping.confirm({ select = true }),
-      c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-    }),
-    ["<Tab>"] = cmp.mapping({
-      -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-      i = function(fallback)
-        if cmp.visible() then
-          if cmp.get_selected_entry() and not cmp.get_active_entry() then
-            -- cmp.confirm()
-            -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
-            custom_complete()
-            -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
-          else
-            cmp.select_next_item()
-          end
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
+      c = function(fallback)
+        if cmp.visible() and cmp.get_active_entry() then
+          cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
         else
           fallback()
         end
       end,
+    }),
+    ["<Tab>"] = cmp.mapping({
+      -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+      -- i = function(fallback)
+      --   if cmp.visible() then
+      --     -- if cmp.get_selected_entry() and not cmp.get_active_entry() then
+      --       -- cmp.confirm()
+      --       -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+      --       -- custom_complete()
+      --       -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
+      --     -- else
+      --       cmp.select_next_item()
+      --     -- end
+      --   elseif luasnip.expand_or_jumpable() then
+      --     luasnip.expand_or_jump()
+      --   else
+      --     fallback()
+      --   end
+      -- end,
       c = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         else
           -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-z>", true, true, true), "ni", true)
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "tn", false)
+          -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "tn", false)
+          cmp.complete();
         end
       end }),
+    ["<S-Tab>"] = cmp.mapping.select_prev_item({}),
     ['<Down>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       else
         fallback()
       end
-    end, { 'i', 's' }),
+    end, { 'i', 's', 'c' }),
     ['<Up>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       else
         fallback()
       end
-    end, { 'i', 's' }),
+    end, { 'i', 's', 'c' }),
   },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
   },
 }
+
+cmp.setup.cmdline(':', {
+  -- mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    {
+      name = 'cmdline',
+      option = {
+        ignore_cmds = { 'Man', '!' }
+      }
+    }
+  })
+})
 
 -- If you want insert `(` after select function or method item
 -- local cmp_autopairs = require('nvim-autopairs.completion.cmp')

@@ -294,7 +294,21 @@ require('lazy').setup({
 	{ 'neovim/nvim-lspconfig' },
 	{ 'hrsh7th/cmp-nvim-lsp' },
 	{ 'hrsh7th/nvim-cmp' },
+	{ 'hrsh7th/cmp-cmdline' },
+	{ 'hrsh7th/cmp-path' },
 	{ 'L3MON4D3/LuaSnip' },
+
+	{
+		'mawkler/modicator.nvim',
+		dependencies = 'mawkler/onedark.nvim', -- Add your colorscheme plugin here
+		init = function()
+			-- These are required for Modicator to work
+			vim.o.cursorline = true
+			vim.o.number = true
+			vim.o.termguicolors = true
+		end,
+		opts = {}
+	},
 
 	-- extra markdown stuff
 	{

@@ -75,7 +75,10 @@ local lsps = {
     procMacro = {
       enable = true
     },
-  }
+  },
+  pyright = {
+
+  },
   -- vale_ls = {
   --   init_options = {
   --     configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
