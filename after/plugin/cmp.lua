@@ -1,6 +1,7 @@
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
+-- require('lsp-zero').extend_cmp()
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
@@ -39,7 +40,23 @@ local custom_complete = function()
   return false
 end
 
+local function cmp_next(fallback)
+  if cmp.visible() then
+    cmp.select_next_item()
+  else
+    fallback()
+  end
+end
+local function cmp_prev(fallback)
+  if cmp.visible() then
+    cmp.select_prev_item()
+  else
+    fallback()
+  end
+end
+
 cmp.setup {
+  debug = true,
   preselect = cmp.PreselectMode.None,
   enabled = function()
     -- disable completion in blank lines
@@ -80,55 +97,17 @@ cmp.setup {
       end,
       s = cmp.mapping.confirm({ select = true }),
       c = function(fallback)
-        if cmp.visible() and cmp.get_active_entry() then
-          cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
-        else
-          fallback()
-        end
+        -- if cmp.visible() and cmp.get_active_entry() then
+        --   cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+        -- else
+        fallback()
+        -- end
       end,
     }),
-    ["<Tab>"] = cmp.mapping({
-      -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-      -- i = function(fallback)
-      --   if cmp.visible() then
-      --     -- if cmp.get_selected_entry() and not cmp.get_active_entry() then
-      --       -- cmp.confirm()
-      --       -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
-      --       -- custom_complete()
-      --       -- cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
-      --     -- else
-      --       cmp.select_next_item()
-      --     -- end
-      --   elseif luasnip.expand_or_jumpable() then
-      --     luasnip.expand_or_jump()
-      --   else
-      --     fallback()
-      --   end
-      -- end,
-      c = function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        else
-          -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-z>", true, true, true), "ni", true)
-          -- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "tn", false)
-          cmp.complete();
-        end
-      end }),
-    ["<S-Tab>"] = cmp.mapping.select_prev_item({}),
-    ['<Down>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end, { 'i', 's', 'c' }),
-    ['<Up>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end, { 'i', 's', 'c' }),
+    ["<TAB>"] = cmp.mapping(cmp_next, { 'i', 's', 'c' }),
+    ["<S-TAB>"] = cmp.mapping(cmp_prev, { 'i', 's', 'c' }),
+    ['<Down>'] = cmp.mapping(cmp_next, { 'i', 's', 'c' }),
+    ['<Up>'] = cmp.mapping(cmp_prev, { 'i', 's', 'c' }),
   },
   sources = {
     { name = 'nvim_lsp' },

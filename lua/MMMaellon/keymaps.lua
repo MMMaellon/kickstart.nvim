@@ -35,12 +35,12 @@ vim.api.nvim_set_keymap('c', '<Right>', 'pumvisible() ? "<Down>" : "<Right>"', {
 vim.keymap.set('i', '<CR>', '<CR>', { noremap = true, silent = false })
 
 vim.keymap.set({ 'n', 'x', 'v' }, '<c-c>', '"+y')
-vim.keymap.set({ 'n', 'x' , 'v'}, '<c-v>', '"+p')
+vim.keymap.set({ 'n', 'x', 'v' }, '<c-v>', '"+p')
 vim.keymap.set({ 'i' }, '<c-v>', '<c-r>+')
 vim.keymap.set({ 'n', 'x', 'v' }, '<c-x>', '"+d')
 vim.keymap.set({ 'n', 'x', 'v' }, 'y', '"+y')
-vim.keymap.set({'n', 'x'}, 'p', '"+p')
-vim.keymap.set({'n', 'x'}, 'P', '"+P')
+vim.keymap.set({ 'n', 'x' }, 'p', '"+p')
+vim.keymap.set({ 'n', 'x' }, 'P', '"+P')
 vim.keymap.set({ 'n', 'x' }, '<m-v>', '<c-v>')
 
 vim.keymap.set('n', [[<c-/>]], function()
@@ -51,8 +51,8 @@ end, { expr = true })
 
 -- theprimeagen keymaps
 -- move lines with jk
-vim.keymap.set({'v'}, 'J', ":m '>+1<CR>gv=gv")
-vim.keymap.set({'v'}, 'K', ":m '<-2<CR>gv=gv")
+vim.keymap.set({ 'v' }, 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set({ 'v' }, 'K', ":m '<-2<CR>gv=gv")
 -- when you append lines with j keep everything in the same place
 vim.keymap.set('n', 'J', 'mzJ`z')
 -- keep cursor in place while using c-d and c-u
@@ -68,28 +68,29 @@ vim.keymap.set('n', 'Q', '<nop>')
 -- jump to prev/next error/lint thing
 -- vim.keymap.set('n', '<C-j>', '<cmd>lua vim.diagnostic.goto_prev<CR>zz')
 -- vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
-vim.keymap.set('n', '<leader>j', '<cmd>lua vim.diagnostic.goto_next()<CR>zz', {desc = "Previous Diagnostic"})
-vim.keymap.set('n', '<leader>k', '<cmd>lua vim.diagnostic.goto_prev()<CR>zz', {desc = "Next Diagnostic"})
+vim.keymap.set('n', '<leader>j', '<cmd>lua vim.diagnostic.goto_next()<CR>zz', { desc = "Previous Diagnostic" })
+vim.keymap.set('n', '<leader>k', '<cmd>lua vim.diagnostic.goto_prev()<CR>zz', { desc = "Next Diagnostic" })
 -- quick find and replace
-vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Left><Space><Backspace>]], {desc = 'Auto :s///g replace'})
+vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Left><Space><Backspace>]],
+  { desc = 'Auto :s///g replace' })
 
 -- Quickly edit registers
 vim.keymap.set('n', [[<leader>"]], function()
-  -- Get the current register
-  local current_register = vim.fn.getreg(vim.v.register)
+    -- Get the current register
+    local current_register = vim.fn.getreg(vim.v.register)
 
-  -- Escape single quotes in the register content
-  local escaped_content = vim.fn.escape(current_register, "'")
+    -- Escape single quotes in the register content
+    local escaped_content = vim.fn.escape(current_register, "'")
 
-  local edited_content = vim.fn.input({prompt = 'Edit macro content: ', default = escaped_content, cancelreturn = ""})
+    local edited_content = vim.fn.input({ prompt = 'Edit macro content: ', default = escaped_content, cancelreturn = "" })
 
-  if edited_content == "" then
-    return;
-  end
+    if edited_content == "" then
+      return;
+    end
 
-  -- Construct the Vimscript command to set the register
-  local command = string.format("let @%s = '%s'", vim.v.register, edited_content)
-  -- Execute the command
-  vim.api.nvim_command(command)
-end,
-  {desc = "Edit Register"})
+    -- Construct the Vimscript command to set the register
+    local command = string.format("let @%s = '%s'", vim.v.register, edited_content)
+    -- Execute the command
+    vim.api.nvim_command(command)
+  end,
+  { desc = "Edit Register" })

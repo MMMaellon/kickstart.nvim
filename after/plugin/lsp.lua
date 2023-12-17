@@ -34,21 +34,27 @@ local on_attach = function(_, bufnr)
   end, '[W]orkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+  -- vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+  -- vim.lsp.buf.format()
+  -- end, { desc = 'Format current buffer with LSP' })
+  vim.keymap.set('n', '<leader>cf', function()
+    vim.api.nvim_command("Format")
     vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
-  vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format() end, { noremap = true, desc = '[F]ormat' })
+  end, { noremap = true, desc = '[F]ormat' })
+
 end
 
-local lsp_zero = require('lsp-zero')
+-- local lsp_zero = require('lsp-zero')
 
-lsp_zero.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp_zero.default_keymaps({ buffer = bufnr })
+-- lsp_zero.on_attach(function(client, bufnr)
+--   -- see :help lsp-zero-keybindings
+--   -- to learn the available actions
+--   lsp_zero.default_keymaps({ buffer = bufnr })
+--
+--   on_attach(client, bufnr)
+-- end)
 
-  on_attach(client, bufnr)
-end)
+-- lsp_zero.extend_lspconfig()
 
 local lsps = {
   lua_ls = {
@@ -123,7 +129,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(lsps),
   handlers = {
-    lsp_zero.default_setup,
+    -- lsp_zero.default_setup,
     function(server_name)
       require('lspconfig')[server_name].setup {
         capabilities = capabilities,
@@ -132,6 +138,20 @@ mason_lspconfig.setup {
         filetypes = (lsps[server_name] or {}).filetypes,
       }
     end,
+  }
+}
+
+require("mason-tool-installer").setup {
+  ensure_installed = {
+    'black',
+  }
+}
+
+require("formatter").setup {
+  filetype = {
+    python = {
+      require("formatter.filetypes.python").black
+    },
   }
 }
 

@@ -163,6 +163,11 @@ require('lazy').setup({
 		-- end
 	},
 
+	--allows closing hidden buffers
+	{
+		'kazhala/close-buffers.nvim'
+	},
+
 	-- {
 	-- 	'jiangmiao/auto-pairs',
 	-- 	opts = { fast_wrap = {} },
@@ -223,7 +228,11 @@ require('lazy').setup({
 	},
 
 	-- tabs
-	{ 'akinsho/bufferline.nvim',           version = "*",     dependencies = 'nvim-tree/nvim-web-devicons' },
+	{
+		'akinsho/bufferline.nvim',
+		version = "*",
+		dependencies = 'nvim-tree/nvim-web-devicons'
+	},
 
 	{ 'jeffkreeftmeijer/vim-numbertoggle', event = 'VeryLazy' },
 
@@ -242,6 +251,7 @@ require('lazy').setup({
 		opts = {},
 	},
 
+	-- Terminal
 	{
 		'akinsho/toggleterm.nvim',
 		version = '*',
@@ -286,14 +296,18 @@ require('lazy').setup({
 		tag = 'legacy',
 		opts = {}
 	}, -- status updates for LSPs
+	--formatters
+	{ "mhartington/formatter.nvim" },
+	--allows me to ensure certain mason tools are installed
+	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 
-	{
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v3.x'
-	},
+	-- {
+	-- 	'VonHeikemen/lsp-zero.nvim',
+	-- 	branch = 'v3.x'
+	-- },
 	{ 'neovim/nvim-lspconfig' },
-	{ 'hrsh7th/cmp-nvim-lsp' },
 	{ 'hrsh7th/nvim-cmp' },
+	{ 'hrsh7th/cmp-nvim-lsp'},
 	{ 'hrsh7th/cmp-cmdline' },
 	{ 'hrsh7th/cmp-path' },
 	{ 'L3MON4D3/LuaSnip' },
