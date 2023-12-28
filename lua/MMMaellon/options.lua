@@ -49,7 +49,7 @@ vim.o.whichwrap = vim.o.whichwrap .. '<,>,[,]'
 vim.wo.cursorline = true
 
 --Font
-vim.opt.guifont = { 'FiraCode Nerd Font', ':h14' } -- is opt because it only applies to neovide
+vim.opt.guifont = { 'FiraCode Nerd Font', ':h8' } -- is opt because it only applies to neovide
 
 --Set proper clipboard
 vim.opt.clipboard = ''
@@ -110,6 +110,9 @@ vim.o.undodir = vim.fn.expand("~/.vim/undo")
 vim.opt.undofile = true
 
 vim.opt.colorcolumn = "160"
+
+--compile lua to bytecode for faster startups
+vim.loader.enable()
 
 -- Server for Unity
 -- vim.cmd("echo serverstart(\'::1:42069\')")

@@ -1,36 +1,36 @@
 -- This module contains a number of default definitions
-local rainbow_delimiters = require 'rainbow-delimiters'
-
-local highlight = {
-    'RainbowDelimiterRed',
-    'RainbowDelimiterYellow',
-    'RainbowDelimiterBlue',
-    'RainbowDelimiterOrange',
-    'RainbowDelimiterGreen',
-    'RainbowDelimiterViolet',
-    'RainbowDelimiterCyan',
-}
-
-vim.g.rainbow_delimiters = {
-    strategy = {
-        [''] = rainbow_delimiters.strategy['global'],
-        vim = rainbow_delimiters.strategy['local'],
-    },
-    query = {
-        [''] = 'rainbow-delimiters',
-        lua = 'rainbow-blocks',
-    },
-    highlight = highlight,
-}
-
-local hooks = require "ibl.hooks"
-require("ibl").setup {
-    scope = { highlight = highlight, enabled = true },
-    exclude = {
-        filetypes = { "dashboard", 'lspinfo', 'packer', 'checkhealth', 'help', 'man', 'gitcommit', 'TelescopePrompt',
-            'TelescopeResults', '' },
-    }
-}
+-- local rainbow_delimiters = require 'rainbow-delimiters'
+--
+-- local highlight = {
+--     'RainbowDelimiterRed',
+--     'RainbowDelimiterYellow',
+--     'RainbowDelimiterBlue',
+--     'RainbowDelimiterOrange',
+--     'RainbowDelimiterGreen',
+--     'RainbowDelimiterViolet',
+--     'RainbowDelimiterCyan',
+-- }
+--
+-- vim.g.rainbow_delimiters = {
+--     strategy = {
+--         [''] = rainbow_delimiters.strategy['global'],
+--         vim = rainbow_delimiters.strategy['local'],
+--     },
+--     query = {
+--         [''] = 'rainbow-delimiters',
+--         lua = 'rainbow-blocks',
+--     },
+--     highlight = highlight,
+-- }
+--
+-- local hooks = require "ibl.hooks"
+-- require("ibl").setup {
+--     scope = { highlight = highlight, enabled = true },
+--     exclude = {
+--         filetypes = { "dashboard", 'lspinfo', 'packer', 'checkhealth', 'help', 'man', 'gitcommit', 'TelescopePrompt',
+--             'TelescopeResults', '' },
+--     }
+-- }
 
 
 -- -- create the highlight groups in the highlight setup hook, so they are reset

@@ -23,7 +23,7 @@ return {
 	'navarasu/onedark.nvim',
 	lazy = false,
 	priority = 1001,
-	style = 'darker',
+	-- style = 'darker',
 	config = function()
 		require('onedark').setup {style = 'darker'}
 		require('onedark').load()
