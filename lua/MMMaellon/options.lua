@@ -49,7 +49,7 @@ vim.o.whichwrap = vim.o.whichwrap .. '<,>,[,]'
 vim.wo.cursorline = true
 
 --Font
-vim.opt.guifont = { 'FiraCode Nerd Font', ':h8' } -- is opt because it only applies to neovide
+vim.opt.guifont = { 'FiraCode Nerd Font', ':h14' } -- is opt because it only applies to neovide
 
 --Set proper clipboard
 vim.opt.clipboard = ''

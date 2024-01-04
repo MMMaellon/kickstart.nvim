@@ -14,7 +14,7 @@ require("auto-session").setup {
     theme_conf = { border = true },
     previewer = false,
   },
-  post_restore_cmds = {
+  pre_save_cmds = {
     "BWipeout! hidden",
     "bufdo! e",
   },

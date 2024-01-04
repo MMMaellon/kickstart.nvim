@@ -138,17 +138,17 @@ require('lazy').setup({
 				dim = 0.18,
 				cleaning_interval = 1250,
 			},
-			trigger_events = { 'FocusLost', 'BufLeave', 'InsertLeave', 'TextChanged' },
+			-- trigger_events = { 'InsertLeave', 'TextChanged' },
 			condition = function(buf)
 				local fn = vim.fn
 				local utils = require 'auto-save.utils.data'
 
-				if fn.getbufvar(buf, '&modifiable') == 1 and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) then
+				if fn.getbufvar(buf, '&modifiable') == 1--[[  and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) ]] then
 					return true -- met condition(s), can save
 				end
 				return false -- can't save
 			end,
-			write_all_buffers = true,
+			write_all_buffers = false,
 		}
 	},
 
@@ -201,7 +201,7 @@ require('lazy').setup({
 
 	-- mini
 	-- { 'echasnovski/mini.pairs',     version = nil },
-	{ 'echasnovski/mini.operators',        version = nil },
+	-- { 'echasnovski/mini.operators',        version = nil },
 	-- {
 	-- 	'echasnovski/mini.surround',
 	-- 	version = nil,
@@ -334,7 +334,7 @@ require('lazy').setup({
 
 	-- Spicy experimental async linting
 	-- { 'dense-analysis/ale' },
-	{ 'mfussenegger/nvim-lint' },
+	-- { 'mfussenegger/nvim-lint' },
 
 
 	-- { 'prettier/vim-prettier',
