@@ -47,6 +47,7 @@ vim.o.whichwrap = vim.o.whichwrap .. '<,>,[,]'
 
 --line where the cursor is
 vim.wo.cursorline = true
+vim.o.cursorline = true
 
 --Font
 vim.opt.guifont = { 'FiraCode Nerd Font', ':h14' } -- is opt because it only applies to neovide
