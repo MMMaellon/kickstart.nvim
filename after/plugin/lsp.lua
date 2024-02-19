@@ -3,7 +3,7 @@
 require('mason').setup()
 require('mason-lspconfig').setup()
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -23,7 +23,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -42,6 +42,13 @@ local on_attach = function(_, bufnr)
     vim.lsp.buf.format()
   end, { noremap = true, desc = '[F]ormat' })
 
+  --- Guard against servers without the signatureHelper capability
+  if client.server_capabilities.signatureHelpProvider then
+    require('lsp-overloads').setup(client, {})
+    nmap('<C-k>', ":LspOverloadsSignature<CR>", 'Signature Documentation')
+  else
+    nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  end
 end
 
 -- local lsp_zero = require('lsp-zero')

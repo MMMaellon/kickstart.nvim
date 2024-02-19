@@ -8,7 +8,7 @@ local trouble = require("trouble.providers.telescope")
 
 -- utility to get absolute path of target directory for create, copy, moving files/folders
 local get_target_dir = function(finder)
-  local entry_path
+  local entry_path = vim.cmd("pwd");
   if finder.files == false then
     local entry = action_state.get_selected_entry()
     entry_path = entry and entry.value -- absolute path
@@ -24,14 +24,14 @@ local search_current_path = function(prompt_bufnr)
   builtin.find_files({ cwd = base_dir })
 end
 
--- local browse_current_path = function(prompt_bufnr)
---   local current_picker = action_state.get_current_picker(prompt_bufnr)
---   local finder = current_picker.finder
---
---   local base_dir = get_target_dir(finder) .. Path.path.sep
---   -- builtin.find_files({ cwd = base_dir })
---   vim.cmd(':Telescope file_browser path=' .. base_dir .. ' select_buffer=true<CR>')
--- end
+local browse_current_path = function(prompt_bufnr)
+  local current_picker = action_state.get_current_picker(prompt_bufnr)
+  local finder = current_picker.finder
+
+  local base_dir = get_target_dir(finder) .. Path.path.sep
+  -- builtin.find_files({ cwd = base_dir })
+  vim.cmd(':Telescope file_browser path=' .. base_dir .. ' select_buffer=true<CR>')
+end
 
 
 require('telescope').setup {
@@ -45,7 +45,7 @@ require('telescope').setup {
         ['<C-h>'] = "which_key",
         ['<Tab>'] = "select_tab",
         -- ["<C-t>"] = trouble.open_with_trouble,
-        -- ['<c-f>'] = browse_current_path,
+        ['<C-f>'] = browse_current_path,
       },
       -- n = {
       --   ["<C-t>"] = trouble.open_with_trouble,
@@ -65,7 +65,7 @@ require('telescope').setup {
       -- depth= 3,
       mappings = {
         ["n"] = {
-          ["<c-f>"] = search_current_path,
+          ["<C-f>"] = search_current_path,
         },
         ["i"] = {
           ["<C-f>"] = search_current_path,
@@ -109,4 +109,4 @@ local localSearch = function()
 end
 
 vim.keymap.set('n', '<leader>/', localSearch, { desc = '[/] Fuzzily search in current buffer' })
-vim.keymap.set({ 'n', 'i', 'v' }, '<c-f>', localSearch)
+-- vim.keymap.set({ 'n', 'i', 'v' }, '<c-f>', localSearch)

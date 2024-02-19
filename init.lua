@@ -110,7 +110,7 @@ require('lazy').setup({
 	-- },
 
 	-- "gc" to comment visual regions/lines
-	{ 'numToStr/Comment.nvim',          opts = {} },
+	{ 'numToStr/Comment.nvim',             opts = {} },
 
 	-- fast marks
 	{
@@ -143,7 +143,7 @@ require('lazy').setup({
 				local fn = vim.fn
 				local utils = require 'auto-save.utils.data'
 
-				if fn.getbufvar(buf, '&modifiable') == 1--[[  and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) ]] then
+				if fn.getbufvar(buf, '&modifiable') == 1 --[[  and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) ]] then
 					return true -- met condition(s), can save
 				end
 				return false -- can't save
@@ -300,14 +300,14 @@ require('lazy').setup({
 	{ "mhartington/formatter.nvim" },
 	--allows me to ensure certain mason tools are installed
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
-
+	{ "Issafalcon/lsp-overloads.nvim" },
 	-- {
 	-- 	'VonHeikemen/lsp-zero.nvim',
 	-- 	branch = 'v3.x'
 	-- },
 	{ 'neovim/nvim-lspconfig' },
 	{ 'hrsh7th/nvim-cmp' },
-	{ 'hrsh7th/cmp-nvim-lsp'},
+	{ 'hrsh7th/cmp-nvim-lsp' },
 	{ 'hrsh7th/cmp-cmdline' },
 	{ 'hrsh7th/cmp-path' },
 	{ 'L3MON4D3/LuaSnip' },
