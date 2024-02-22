@@ -301,6 +301,7 @@ require('lazy').setup({
 	--allows me to ensure certain mason tools are installed
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ "Issafalcon/lsp-overloads.nvim" },
+	{ "jmederosalvarado/roslyn.nvim" },
 	-- {
 	-- 	'VonHeikemen/lsp-zero.nvim',
 	-- 	branch = 'v3.x'

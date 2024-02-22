@@ -70,9 +70,9 @@ local lsps = {
       telemetry = { enable = false },
     },
   },
-  omnisharp = {
-
-  },
+  -- omnisharp = {
+  --
+  -- },
   rust_analyzer = {
     imports = {
       granularity = {
@@ -112,6 +112,9 @@ local lsps = {
   -- clangd = {
   --   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto", "shader", "cginc", "gdshader", "glsl" },
   -- }
+  -- csharp_ls = {
+  --
+  -- },
 }
 
 -- Ensure the servers above are installed
@@ -147,6 +150,13 @@ mason_lspconfig.setup {
     end,
   }
 }
+
+require("roslyn").setup({
+    dotnet_cmd = "dotnet", -- this is the default
+    roslyn_version = "4.8.0-3.23475.7", -- this is the default
+    on_attach = on_attach, -- required
+    capabilities = capabilities, -- required
+})
 
 require("mason-tool-installer").setup {
   ensure_installed = {
