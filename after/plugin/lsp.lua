@@ -99,16 +99,16 @@ local lsps = {
   --   },
   --   root_dir = function() return require('lspconfig').util.root_pattern('.git') end,
   -- },
-  -- ltex = {
-  --   settings = {
-  --     ltex = {
-  --       language = 'en-US',
-  --     }
-  --   },
-  --   root_dir = require('lspconfig').util.root_pattern('.git'),
-  --   cmd = "ltex-ls.bat",
-  --   single_file_support = true,
-  -- },
+  ltex = {
+    settings = {
+      ltex = {
+        language = 'en-US',
+      }
+    },
+    root_dir = require('lspconfig').util.root_pattern('.git'),
+    cmd = "ltex-ls.bat",
+    single_file_support = true,
+  },
   -- clangd = {
   --   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto", "shader", "cginc", "gdshader", "glsl" },
   -- }
