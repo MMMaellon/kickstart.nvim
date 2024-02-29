@@ -326,12 +326,12 @@ require('lazy').setup({
 	},
 
 	-- extra markdown stuff
-	{
-		"barreiroleo/ltex_extra.nvim",
-		ft = { "markdown", "tex" },
-		dependencies = { "neovim/nvim-lspconfig" },
-		opts = {},
-	},
+	-- {
+	-- 	"barreiroleo/ltex_extra.nvim",
+	-- 	ft = { "markdown", "tex" },
+	-- 	dependencies = { "neovim/nvim-lspconfig" },
+	-- 	opts = {},
+	-- },
 
 	-- Spicy experimental async linting
 	-- { 'dense-analysis/ale' },
