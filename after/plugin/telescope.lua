@@ -60,6 +60,7 @@ require('telescope').setup {
       prompt_path = true,
       select_buffer = true,
       grouped = true,
+      respect_gitignore = false,
       hidden = { file_browser = true, folder_browser = true },
       -- auto_depth = true,
       -- depth= 3,

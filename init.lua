@@ -71,28 +71,6 @@ require('lazy').setup({
 		-- Set lualine as statusline
 		'nvim-lualine/lualine.nvim',
 		-- See `:help lualine.txt`
-		-- opts = {
-		-- 	options = {
-		-- 		icons_enabled = false,
-		-- 		theme = 'ayu_mirage',
-		-- 		component_separators = '|',
-		-- 		section_separators = '',
-		-- 	},
-		-- 	sections = {
-		-- 		lualine_c = { {
-		-- 			'filename',
-		-- 			path = 2,
-		-- 			fmt = function(path)
-		-- 				return table.concat({
-		-- 					vim.fs.basename(path),
-		-- 					" (",
-		-- 					path,
-		-- 					")"
-		-- 				})
-		-- 			end
-		-- 		} }
-		-- 	},
-		-- },
 	},
 
 	{
@@ -103,11 +81,6 @@ require('lazy').setup({
 		main = 'ibl',
 		opts = {},
 	},
-	-- {'preservim/vim-indent-guides',
-	-- 	config = function()
-	-- 		vim.g.indent_guides_enable_on_vim_startup = 1
-	-- 	end
-	-- },
 
 	-- "gc" to comment visual regions/lines
 	{ 'numToStr/Comment.nvim',             opts = {} },
@@ -116,16 +89,8 @@ require('lazy').setup({
 	{
 		'theprimeagen/harpoon',
 		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" }
+		dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim' }
 	},
-
-	-- multi-line visual mode
-	-- {
-	-- 	'mg979/vim-visual-multi',
-	-- 	branch = 'master',
-	-- },
-
-	-- { 'HiPhish/rainbow-delimiters.nvim' },
 
 	{
 		'pocco81/auto-save.nvim',
@@ -141,26 +106,22 @@ require('lazy').setup({
 			-- trigger_events = { 'InsertLeave', 'TextChanged' },
 			condition = function(buf)
 				local fn = vim.fn
-				local utils = require 'auto-save.utils.data'
-
-				if fn.getbufvar(buf, '&modifiable') == 1 --[[  and utils.not_in(fn.getbufvar(buf, '&filetype'), {}) ]] then
+				if vim.bo.ft == "harpoon" then
+					return false
+				end
+				if fn.getbufvar(buf, '&modifiable') == 1 then
 					return true -- met condition(s), can save
 				end
 				return false -- can't save
 			end,
-			write_all_buffers = false,
+			write_all_buffers = true,
+			debounce_delay = 1000,
 		}
 	},
 
 	{
 		'rmagatti/auto-session',
 		opts = {},
-		--   config = function()
-		--   require("auto-session").setup {
-		--       log_level = "error",
-		--       auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
-		--     }
-		-- end
 	},
 
 	--allows closing hidden buffers
@@ -168,51 +129,11 @@ require('lazy').setup({
 		'kazhala/close-buffers.nvim'
 	},
 
-	-- {
-	-- 	'jiangmiao/auto-pairs',
-	-- 	opts = { fast_wrap = {} },
-	-- 	config = function()
-	-- 		vim.g.AutoPairsShortcutToggle = ''
-	-- 		vim.g.AutoPairsShortcutJump = ''
-	-- 	end
-	-- },
-
-	-- {
-	-- 	    'windwp/nvim-autopairs',
-	-- 	    event = "InsertEnter",
-	-- 	    opts = {} -- this is equalent to setup({}) function
-	-- }
 	{
 		'altermo/ultimate-autopair.nvim',
 		event = { 'InsertEnter', 'CmdlineEnter' },
 		branch = 'v0.6', --recomended as each new version will have breaking changes
-		-- opts = {
-		-- 	tabout = {
-		-- 		enable = true,
-		-- 		hopout = true,
-		-- 	},
-		-- 	fastwarp = {
-		-- 		mutli = true,
-		-- 		{},
-		-- 		{faster = true, map='<M-f>', imap='<M-f>', cmap='<M-f>'},
-		-- 	},
-		-- },
 	},
-
-	-- mini
-	-- { 'echasnovski/mini.pairs',     version = nil },
-	-- { 'echasnovski/mini.operators',        version = nil },
-	-- {
-	-- 	'echasnovski/mini.surround',
-	-- 	version = nil,
-	-- 	opts = {
-	-- 		mappings = {
-	-- 			add = '<leader>sa',
-	-- 			delete = '<leader>sd',
-	-- 		},
-	-- 		search_method = 'cover_or_next',
-	-- 	}
-	-- },
 
 	-- UI improvements
 	{
@@ -228,11 +149,11 @@ require('lazy').setup({
 	},
 
 	-- tabs
-	{
-		'akinsho/bufferline.nvim',
-		version = "*",
-		dependencies = 'nvim-tree/nvim-web-devicons'
-	},
+	-- {
+	-- 	'akinsho/bufferline.nvim',
+	-- 	version = "*",
+	-- 	dependencies = 'nvim-tree/nvim-web-devicons'
+	-- },
 
 	{ 'jeffkreeftmeijer/vim-numbertoggle', event = 'VeryLazy' },
 
@@ -325,25 +246,6 @@ require('lazy').setup({
 		opts = {}
 	},
 
-	-- extra markdown stuff
-	-- {
-	-- 	"barreiroleo/ltex_extra.nvim",
-	-- 	ft = { "markdown", "tex" },
-	-- 	dependencies = { "neovim/nvim-lspconfig" },
-	-- 	opts = {},
-	-- },
-
-	-- Spicy experimental async linting
-	-- { 'dense-analysis/ale' },
-	-- { 'mfussenegger/nvim-lint' },
-
-
-	-- { 'prettier/vim-prettier',
-	-- 	opts = {},
-	-- 	config = function()
-	-- 		vim.cmd('!yarn install --frozen-lockfile --production')
-	-- 	end,
-	-- },
 
 	-- special library for better nvim docs when editing configs
 	{ 'folke/neodev.nvim',        opts = {} }, -- opts = {} is the same as calling .setup() later
