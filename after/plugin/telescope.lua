@@ -51,6 +51,7 @@ require('telescope').setup {
       --   ["<C-t>"] = trouble.open_with_trouble,
       -- }
     },
+    path_display = { "truncate" },
   },
   extensions = {
     file_browser = {

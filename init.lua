@@ -132,7 +132,16 @@ require('lazy').setup({
 	{
 		'altermo/ultimate-autopair.nvim',
 		event = { 'InsertEnter', 'CmdlineEnter' },
-		branch = 'v0.6', --recomended as each new version will have breaking changes
+		branch = 'v0.6', --recommended as each new version will have breaking changes
+	},
+	{
+		"kylechui/nvim-surround",
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end
 	},
 
 	-- UI improvements
@@ -200,6 +209,7 @@ require('lazy').setup({
 	-- Shows diagnostic error messages
 	{
 		'folke/trouble.nvim',
+		branch = "main", -- IMPORTANT!
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 

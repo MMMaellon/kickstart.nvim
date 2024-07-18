@@ -65,10 +65,12 @@ end
 
 local lsps = {
   lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+      },
+    }
   },
   -- omnisharp = {
   --
@@ -99,22 +101,25 @@ local lsps = {
   --   },
   --   root_dir = function() return require('lspconfig').util.root_pattern('.git') end,
   -- },
-  ltex = {
-    settings = {
-      ltex = {
-        language = 'en-US',
-      }
-    },
-    root_dir = require('lspconfig').util.root_pattern('.git'),
-    cmd = "ltex-ls.bat",
-    single_file_support = true,
-  },
+  -- ltex = {
+  --   settings = {
+  --     ltex = {
+  --       language = 'en-US',
+  --     }
+  --   },
+  --   root_dir = require('lspconfig').util.root_pattern('.git'),
+  --   cmd = "ltex-ls.bat",
+  --   single_file_support = true,
+  -- },
   -- clangd = {
   --   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto", "shader", "cginc", "gdshader", "glsl" },
   -- }
   -- csharp_ls = {
   --
   -- },
+  -- typos_ls = {
+  --
+  -- }
 }
 
 -- Ensure the servers above are installed
@@ -152,10 +157,10 @@ mason_lspconfig.setup {
 }
 
 require("roslyn").setup({
-    dotnet_cmd = "dotnet", -- this is the default
-    roslyn_version = "4.8.0-3.23475.7", -- this is the default
-    on_attach = on_attach, -- required
-    capabilities = capabilities, -- required
+  dotnet_cmd = "dotnet",              -- this is the default
+  roslyn_version = "4.8.0-3.23475.7", -- this is the default
+  on_attach = on_attach,              -- required
+  capabilities = capabilities,        -- required
 })
 
 require("mason-tool-installer").setup {
