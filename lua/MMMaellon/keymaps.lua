@@ -35,10 +35,17 @@ vim.api.nvim_set_keymap('c', '<Right>', 'pumvisible() ? "<Down>" : "<Right>"', {
 vim.keymap.set('i', '<CR>', '<CR>', { noremap = true, silent = false })
 
 vim.keymap.set({ 'n', 'x', 'v' }, '<c-c>', '"+y')
-vim.keymap.set({ 'n', 'x', 'v' }, '<c-v>', '"+p')
-vim.keymap.set({ 'i' }, '<c-v>', '<c-r>+')
+vim.keymap.set({ 'n', 'x', 'v' }, '<c-v>', function()
+  vim.opt.paste = true;
+  vim.cmd('normal "+p')
+  vim.opt.paste = false;
+end, { noremap = true, silent = true }
+)
+vim.keymap.set({ 'i' }, '<c-v>', '<c-r><c-p>+')
 vim.keymap.set({ 'n', 'x', 'v' }, '<c-x>', '"+d')
 vim.keymap.set({ 'n', 'x' }, '<m-v>', '<c-v>')
+
+
 
 vim.keymap.set('n', [[<c-/>]], function()
   return vim.v.count == 0
@@ -50,6 +57,9 @@ end, { expr = true })
 -- move lines with jk
 vim.keymap.set({ 'v' }, 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set({ 'v' }, 'K', ":m '<-2<CR>gv=gv")
+-- don't deslect when moving lines
+vim.keymap.set({ 'v' }, '<', "<gv")
+vim.keymap.set({ 'v' }, '>', ">gv")
 -- when you append lines with j keep everything in the same place
 vim.keymap.set('n', 'J', 'mzJ`z')
 -- keep cursor in place while using c-d and c-u
