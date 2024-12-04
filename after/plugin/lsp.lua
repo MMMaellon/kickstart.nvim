@@ -94,6 +94,9 @@ local lsps = {
   pyright = {
 
   },
+  zls = {
+
+  }
   -- vale_ls = {
   --   init_options = {
   --     configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
@@ -121,6 +124,9 @@ local lsps = {
   --
   -- }
 }
+
+-- Apparently there's settings specific to zig formatting
+vim.g.zig_fmt_autosave = 0
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'

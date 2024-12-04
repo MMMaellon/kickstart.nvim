@@ -200,9 +200,9 @@ require('lazy').setup({
 	{
 		'folke/which-key.nvim',
 		event = 'VeryLazy',
-		init = function()
-			vim.o.timeoutlen = 0
-		end,
+		-- init = function()
+		-- 	vim.o.timeoutlen = 500
+		-- end,
 		opts = {},
 	},
 
@@ -232,7 +232,13 @@ require('lazy').setup({
 	--allows me to ensure certain mason tools are installed
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ "Issafalcon/lsp-overloads.nvim" },
-	{ "jmederosalvarado/roslyn.nvim" },
+	{
+		"seblj/roslyn.nvim",
+		ft = "cs",
+		opts = {
+			-- your configuration comes here; leave empty for default settings
+		}
+	},
 	-- {
 	-- 	'VonHeikemen/lsp-zero.nvim',
 	-- 	branch = 'v3.x'
