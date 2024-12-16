@@ -64,14 +64,14 @@ end
 -- lsp_zero.extend_lspconfig()
 
 local lsps = {
-  lua_ls = {
-    settings = {
-      Lua = {
-        workspace = { checkThirdParty = false },
-        telemetry = { enable = false },
-      },
-    }
-  },
+  -- lua_ls = {
+  --   settings = {
+  --     Lua = {
+  --       workspace = { checkThirdParty = false },
+  --       telemetry = { enable = false },
+  --     },
+  --   }
+  -- },
   -- omnisharp = {
   --
   -- },
@@ -94,9 +94,9 @@ local lsps = {
   pyright = {
 
   },
-  zls = {
-
-  }
+  -- ,zls = {
+  --
+  -- }
   -- vale_ls = {
   --   init_options = {
   --     configPath = 'C:\\Users\\MMMaellon\\.vale.ini',
@@ -120,13 +120,13 @@ local lsps = {
   -- csharp_ls = {
   --
   -- },
-  -- typos_ls = {
-  --
-  -- }
+  typos_lsp = {
+
+  }
 }
 
 -- Apparently there's settings specific to zig formatting
-vim.g.zig_fmt_autosave = 0
+-- vim.g.zig_fmt_autosave = 0
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
