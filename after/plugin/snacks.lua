@@ -9,12 +9,14 @@ snacks.config.dashboard.preset = {
     { icon = " ", key = "q", desc = "Quit", action = ":qa" },
   }
 }
+local gif_path = vim.fn.stdpath("config") .. "/resources/transparent_fauna_loop.gif"
 snacks.config.dashboard.sections = {
 
   {
     section = "terminal",
-    cmd =
-    "chafa C:\\Users\\MMMaellon\\Pictures\\transparent_fauna_loop.gif --symbols block+wide+space --colors full --fit-width -w 7 --exact-size false --margin-bottom 10 --fg-only --bg 88DDAA",
+    cmd = string.format(
+      "chafa %s --symbols block+wide+space+ascii --colors full --fit-width -w 9 --exact-size false --margin-bottom 10 --fg-only --bg 88DDAA",
+      gif_path),
     width = 60,
     height = 30,
     indent = 0,
