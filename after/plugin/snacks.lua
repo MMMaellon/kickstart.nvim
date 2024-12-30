@@ -15,7 +15,7 @@ snacks.config.dashboard.sections = {
   {
     section = "terminal",
     cmd = string.format(
-      "chafa %s --symbols block+wide+space+ascii --colors full --fit-width -w 9 --exact-size false --margin-bottom 10 --fg-only --bg 88DDAA",
+      "chafa %s --symbols block+half+wide+space+ascii --colors full --fit-width -w 9 --clear --exact-size false --fg-only --margin-bottom 10 --bg 88DDAA",
       gif_path),
     width = 60,
     height = 30,
