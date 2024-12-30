@@ -1,4 +1,20 @@
---My Stuff
+-- Profiling
+if vim.env.PROF then
+	-- example for lazy.nvim
+	-- change this to the correct path for your plugin manager
+	local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
+	vim.opt.rtp:append(snacks)
+	profiler = require("snacks.profiler")
+	profiler.startup({
+		startup = {
+			event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
+			-- event = "UIEnter",
+			-- event = "VeryLazy",
+		},
+	})
+end
+
+-- My Stuff
 require('MMMaellon')
 
 -- Plugin Manager
@@ -73,14 +89,14 @@ require('lazy').setup({
 		-- See `:help lualine.txt`
 	},
 
-	{
-		-- Add indentation guides even on blank lines
-		'lukas-reineke/indent-blankline.nvim',
-		-- Enable `lukas-reineke/indent-blankline.nvim`
-		-- See `:help ibl`
-		main = 'ibl',
-		opts = {},
-	},
+	-- {
+	-- 	-- Add indentation guides even on blank lines
+	-- 	'lukas-reineke/indent-blankline.nvim',
+	-- 	-- Enable `lukas-reineke/indent-blankline.nvim`
+	-- 	-- See `:help ibl`
+	-- 	main = 'ibl',
+	-- 	opts = {},
+	-- },
 
 	-- "gc" to comment visual regions/lines
 	{ 'numToStr/Comment.nvim',             opts = {} },
@@ -119,9 +135,18 @@ require('lazy').setup({
 		}
 	},
 
+	-- {
+	-- 	'rmagatti/auto-session',
+	-- 	opts = {},
+	-- },
+	-- Lua
 	{
-		'rmagatti/auto-session',
-		opts = {},
+		"folke/persistence.nvim",
+		event = "BufReadPre", -- this will only start session saving when an actual file was opened
+		opts = {
+			-- add any custom options here
+			need = 0,
+		}
 	},
 
 	--allows closing hidden buffers
@@ -188,12 +213,34 @@ require('lazy').setup({
 		config = true,
 	},
 
-	{
-		-- 'nvimdev/dashboard-nvim',
-		'MMMaellon/dashboard-nvim',
-		event = 'VimEnter',
-		dependencies = { { 'nvim-tree/nvim-web-devicons' } },
+	-- {
+	-- 	-- 'nvimdev/dashboard-nvim',
+	-- 	'MMMaellon/dashboard-nvim',
+	-- 	event = 'VimEnter',
+	-- 	dependencies = { { 'nvim-tree/nvim-web-devicons' } },
+	--
+	-- },
 
+	-- New Dashboard?
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		---@type snacks.Config
+		--  opts = {
+		-- -- your configuration comes here
+		-- -- or leave it empty to use the default settings
+		-- -- refer to the configuration section below
+		-- bigfile = { enabled = true },
+		-- dashboard = { enabled = true },
+		-- indent = { enabled = true },
+		-- input = { enabled = true },
+		-- -- notifier = { enabled = true },
+		-- quickfile = { enabled = true },
+		-- -- scroll = { enabled = true },
+		-- statuscolumn = { enabled = true },
+		-- words = { enabled = true },
+		-- },
 	},
 
 	-- Useful plugin to show you pending keybinds.
@@ -250,17 +297,17 @@ require('lazy').setup({
 	{ 'hrsh7th/cmp-path' },
 	{ 'L3MON4D3/LuaSnip' },
 
-	{
-		'mawkler/modicator.nvim',
-		dependencies = 'navarasu/onedark.nvim', -- Add your colorscheme plugin here
-		init = function()
-			-- These are required for Modicator to work
-			vim.o.cursorline = true
-			vim.o.number = true
-			vim.o.termguicolors = true
-		end,
-		opts = {}
-	},
+	-- {
+	-- 	'mawkler/modicator.nvim',
+	-- 	dependencies = 'navarasu/onedark.nvim', -- Add your colorscheme plugin here
+	-- 	init = function()
+	-- 		-- These are required for Modicator to work
+	-- 		vim.o.cursorline = true
+	-- 		vim.o.number = true
+	-- 		vim.o.termguicolors = true
+	-- 	end,
+	-- 	opts = {}
+	-- },
 
 
 	-- special library for better nvim docs when editing configs
