@@ -49,31 +49,133 @@ local print_project_path = function(buffer_path)
   })
 end
 
+local base_path = function(buffer_path)
+  if not buffer_path then
+    return buffer_path
+  end
+  local dir = vim.fs.dirname(buffer_path)
+  return table.concat({
+    "(",
+    dir,
+    ")"
+  })
+end
+
+local clients_lsp = function()
+  local bufnr = vim.api.nvim_get_current_buf()
+
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  if next(clients) == nil then
+    return ''
+  end
+
+  local c = {}
+  for _, client in pairs(clients) do
+    if (client.name ~= 'typos_lsp') then
+      table.insert(c, client.name)
+    end
+  end
+  return table.concat(c, ', ')
+end
+
+local just_arrow = function()
+  return ""
+end
+
+local custom_ayu = require('lualine.themes.ayu_mirage')
+
+-- Change the background of lualine_c section for normal mode
+custom_ayu.normal.c.bg = '#171c22'
+
 
 require('lualine').setup(
   {
     options = {
       icons_enabled = true,
-      theme = 'ayu_mirage',
-      component_separators = '|',
-      section_separators = '',
+      theme = custom_ayu,
+      component_separators = '',
+      -- section_separators = '',
     },
     sections = {
-      lualine_c = { {
-        'filename',
-        path = 1,
-        fmt = print_project_path,
-        color = 'MiniStatuslineFileInfo'
-
-      } },
+      -- lualine_a = {
+        -- {'mode',
+        --   color = {fg = 'black'},
+        -- }
+      -- },
+      lualine_b = {
+        {
+          'filename',
+          path = 0,
+          padding = { left = 2, right = 1 },
+          -- color = {bg = "272d38"}
+        },
+      },
+      lualine_c = {
+        {
+          'filename',
+          path = 1,
+          fmt = base_path,
+          -- color = {bg = "171d28"}
+          -- padding = 0,
+          -- color = {fg = "grey"}
+        }
+      },
+      lualine_x = {
+        {
+          'branch',
+          -- color = {bg = "171d28"},
+        }
+        ,
+        {
+          'diff',
+          -- color = {bg = "171d28"},
+        }
+        ,
+        {
+          'diagnostics',
+          -- color = {bg = "171d28"},
+        }
+        ,
+      },
+      lualine_y = {
+        'filetype',
+        {
+          clients_lsp,
+          -- padding = 0
+          padding = { left = 0, right = 1 },
+        },
+      },
+      lualine_z = {
+        {
+          "progress",
+        } ,
+        -- {
+        --   just_arrow,
+        --   padding = 0,
+        -- } ,
+        {
+          'location',
+        } ,
+      }
     },
     inactive_sections = {
-      lualine_c = { {
-        'filename',
-        path = 1,
-        fmt = print_project_path,
-        color = '@comment'
-      } },
+      lualine_b = {
+        {
+          'filename',
+          path = 0,
+          color = 'lualine_c_normal',
+          padding = { left = 2, right = 0 },
+        },
+      },
+      lualine_c = {
+        {
+          'filename',
+          path = 1,
+          fmt = base_path,
+          color = 'lualine_c_normal',
+          padding = 0,
+        }
+      }
     }
   }
 )
