@@ -49,6 +49,9 @@ snacks.config.dashboard.sections = {
   { section = "startup" },
 }
 
+snacks.config.notifier.timeout = 10000 -- 10 seconds default
+snacks.config.notifier.style = "fancy"
+
 snacks.setup {
   -- your configuration comes here
   -- or leave it empty to use the default settings
@@ -57,12 +60,15 @@ snacks.setup {
   dashboard = { enabled = true },
   indent = { enabled = true },
   input = { enabled = true },
-  -- notifier = { enabled = true },
+  notifier = { enabled = true },
   quickfile = { enabled = true },
   -- scroll = { enabled = true },
   statuscolumn = { enabled = true },
   words = { enabled = true },
 }
 
-
+vim.api.nvim_create_user_command("Clear", function()
+  Snacks.notifier.hide()
+end, {})
+vim.api.nvim_create_user_command("Messages", function() Snacks.notifier.show_history() end, {})
 vim.api.nvim_create_user_command("Dashboard", Snacks.dashboard.open, {})
