@@ -26,8 +26,8 @@ vim.keymap.set('x', [[<c-/>]], '<Plug>(comment_toggle_linewise_visual)')
 --Fix Autocomplete in command mode
 -- Remap keys for navigating the popup menu in command-line mode
 -- Have to be written in this way instead of vim.keymap.set
-vim.api.nvim_set_keymap('c', '<Up>', 'pumvisible() ? "<Left>" : "<Up>"', { noremap = true, expr = true })
-vim.api.nvim_set_keymap('c', '<Down>', 'pumvisible() ? "<Right>" : "<Down>"', { noremap = true, expr = true })
+-- vim.api.nvim_set_keymap('c', '<Up>', 'pumvisible() ? "<Left>" : "<Up>"', { noremap = true, expr = true })
+-- vim.api.nvim_set_keymap('c', '<Down>', 'pumvisible() ? "<Right>" : "<Down>"', { noremap = true, expr = true })
 vim.api.nvim_set_keymap('c', '<Left>', 'pumvisible() ? "<Up>" : "<Left>"', { noremap = true, expr = true })
 vim.api.nvim_set_keymap('c', '<Right>', 'pumvisible() ? "<Down>" : "<Right>"', { noremap = true, expr = true })
 

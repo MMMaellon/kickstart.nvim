@@ -58,19 +58,39 @@ local open_persisted = function(proj)
   end
 
   local vim_file = config.save_dir .. dir .. ".vim"
-  persisted.load({session = vim_file})
+  persisted.load({ session = vim_file })
 end
 
 snacks.config.dashboard.sections = {
   {
     section = "terminal",
     cmd = string.format(
-      "chafa %s --symbols block+half+wide+space+ascii --colors full --fit-width -w 9 --clear --exact-size false --fg-only --margin-bottom 10 --bg 88DDAA",
-      gif_path),
-    width = 60,
+      "chafa %s --symbols block+half+wide+space+ascii --colors full --clear --fit-width -w 9 --fg-only --bg %s",
+      gif_path, vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
+    ),
+    width = 55,
     height = 30,
-    indent = 0,
+    indent = 3,
     padding = 1,
+    align = "center",
+    enabled = function()
+      return vim.o.columns <= 300
+    end
+  },
+  {
+    section = "terminal",
+    cmd = string.format(
+      "chafa %s --symbols block+half+wide+space+ascii --colors full --clear --fit-width -w 9 --fg-only --bg %s",
+      gif_path, vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
+    ),
+    -- width = 60,
+    height = 30,
+    -- indent = 3,
+    padding = 1,
+    align = "center",
+    enabled = function()
+      return vim.o.columns > 300
+    end
   },
   -- {
   --   pane = 2,

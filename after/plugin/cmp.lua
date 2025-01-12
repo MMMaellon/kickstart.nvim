@@ -106,8 +106,10 @@ cmp.setup {
     }),
     ["<TAB>"] = cmp.mapping(cmp_next, { 'i', 's', 'c' }),
     ["<S-TAB>"] = cmp.mapping(cmp_prev, { 'i', 's', 'c' }),
-    ['<Down>'] = cmp.mapping(cmp_next, { 'i', 's', 'c' }),
-    ['<Up>'] = cmp.mapping(cmp_prev, { 'i', 's', 'c' }),
+    -- ['<Down>'] = cmp.mapping(cmp_next, { 'i', 's', 'c' }),
+    ['<Down>'] = cmp.mapping(cmp_next, { 'i', 's' }),
+    -- ['<Up>'] = cmp.mapping(cmp_prev, { 'i', 's', 'c' }),
+    ['<Up>'] = cmp.mapping(cmp_prev, { 'i', 's' }),
   },
   sources = {
     { name = 'nvim_lsp' },
