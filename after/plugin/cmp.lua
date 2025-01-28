@@ -112,7 +112,18 @@ cmp.setup {
     ['<Up>'] = cmp.mapping(cmp_prev, { 'i', 's' }),
   },
   sources = {
-    { name = 'nvim_lsp' },
+    { name = 'nvim_lsp',
+      entry_filter = function(entry, ctx)
+        local item = entry:get_completion_item()
+        if ctx.filetype == 'cs' and item.textEdit and string.len(item.textEdit.newText) == 1 then
+          item.textEdit.newText = item.label
+          item.textEdit.textEditText = item.label
+          item.insertText = item.label
+          item.word = item.label
+        end
+        return true
+      end,
+    },
     { name = 'luasnip' },
   },
 }
