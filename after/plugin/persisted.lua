@@ -7,7 +7,8 @@ require('persisted').setup({
   autoload = true,
   should_save = function()
     -- Do not save if the alpha dashboard is the current filetype
-    return vim.bo.filetype ~= "snacks_dashboard" and not vim.bo.readonly and vim.bo.modifiable
+    return vim.bo.filetype ~= "snacks_dashboard" and not vim.bo.readonly and vim.bo.modifiable and
+    vim.fn.getcwd() ~= "C:\\Program Files\\Neovide"
   end,
 })
 -- forces it to still lsave session if we opened it by double-clicking a file
