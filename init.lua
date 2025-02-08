@@ -205,8 +205,11 @@ require('lazy').setup({
 	{
 		"ahmedkhalf/project.nvim",
 		config = function()
-			require('project_nvim').setup {}
 			require('telescope').load_extension('projects')
+			require('project_nvim').setup {
+				patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "*.sln" },
+				-- detection_methods = {"pattern", "lsp"}
+			}
 		end,
 		opts = {},
 	},
