@@ -23,4 +23,8 @@ require('which-key').add {
   { "<leader>t_", hidden = true },
   { "<leader>w",  group = "[W]orkspace" },
   { "<leader>w_", hidden = true },
+  { "<leader>?",  group = "[?]Recent Files" },
+  { "<leader>?_", hidden = true },
+  { "<leader>p",  group = "[P]rojects" },
+  { "<leader>p_", hidden = true },
 }

@@ -5,7 +5,7 @@ snacks.config.dashboard.preset = {
     { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
     -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persistence').load({ last = true })" },
     { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persisted').load({ last = true })" },
-    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+    { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope persisted" },
     { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
     { icon = " ", key = "q", desc = "Quit", action = ":qa" },
   }
