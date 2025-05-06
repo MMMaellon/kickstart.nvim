@@ -8,7 +8,9 @@ require('persisted').setup({
   should_save = function()
     -- Do not save if the alpha dashboard is the current filetype
     return vim.bo.filetype ~= "snacks_dashboard" and not vim.bo.readonly and vim.bo.modifiable and
-        vim.fn.getcwd() ~= "C:\\Program Files\\Neovide"
+        vim.fn.getcwd() ~= "C:\\Program Files\\Neovide" and
+        vim.fn.getcwd() ~= "~" and
+        vim.fn.getcwd() ~= "/home/mmmaellon"
   end,
 })
 

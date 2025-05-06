@@ -101,3 +101,7 @@ vim.keymap.set('n', [[<leader>"]], function()
     vim.api.nvim_command(command)
   end,
   { desc = "Edit Register" })
+vim.api.nvim_create_user_command('SudoWrite', function()
+  vim.cmd('silent! w !pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY tee % >/dev/null') -- Save file using pkexec
+  vim.cmd('edit!')  -- Force reload the file
+end, {})
