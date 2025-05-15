@@ -122,6 +122,10 @@ local lsps = {
   -- },
   typos_lsp = {
 
+  },
+
+  ts_ls = {
+    filetypes = {"js", "ts", "jsx"}
   }
 }
 
