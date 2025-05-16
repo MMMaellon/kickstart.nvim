@@ -81,6 +81,18 @@ vim.keymap.set('n', '<leader>k', '<cmd>lua vim.diagnostic.goto_prev()<CR>zz', { 
 vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Left><Space><Backspace>]],
   { desc = 'Auto :s///g replace' })
 
+-- Zoom in and out
+if vim.g.neovide == true then
+  vim.api.nvim_set_keymap("n", "<C-=>",
+    ":lua vim.g.neovide_scale_factor = math.min(vim.g.neovide_scale_factor + 0.1,  19.0)<CR>", { silent = true })
+  vim.api.nvim_set_keymap("n", "<C-->",
+    ":lua vim.g.neovide_scale_factor = math.max(vim.g.neovide_scale_factor - 0.1,  0.1)<CR>", { silent = true })
+  vim.api.nvim_set_keymap("n", "<C-+>",
+    ":lua vim.g.neovide_scale_factor = 1.0<CR>", { silent = true })
+  -- vim.api.nvim_set_keymap("n", "<C-0>", ":lua vim.g.neovide_scale_factor = 0.5<CR>", { silent = true })
+  -- vim.api.nvim_set_keymap("n", "<C-)>", ":lua vim.g.neovide_transparency = 0.9<CR>", { silent = true })
+end
+
 -- Quickly edit registers
 vim.keymap.set('n', [[<leader>"]], function()
     -- Get the current register
@@ -103,5 +115,5 @@ vim.keymap.set('n', [[<leader>"]], function()
   { desc = "Edit Register" })
 vim.api.nvim_create_user_command('SudoWrite', function()
   vim.cmd('silent! w !pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY tee % >/dev/null') -- Save file using pkexec
-  vim.cmd('edit!')  -- Force reload the file
+  vim.cmd('edit!')                                                                          -- Force reload the file
 end, {})
