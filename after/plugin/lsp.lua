@@ -1,6 +1,11 @@
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
-require('mason').setup()
+require('mason').setup({
+registries = {
+    "github:mason-org/mason-registry",
+    "github:Crashdummyy/mason-registry", --Provides roslyn.nvim
+},
+})
 require('mason-lspconfig').setup()
 
 local on_attach = function(client, bufnr)
@@ -166,12 +171,28 @@ mason_lspconfig.setup {
   }
 }
 
-require("roslyn").setup({
-  dotnet_cmd = "dotnet",              -- this is the default
-  roslyn_version = "4.8.0-3.23475.7", -- this is the default
-  on_attach = on_attach,              -- required
-  capabilities = capabilities,        -- required
-})
+-- if vim.fn.has('macunix') then
+-- require("roslyn").setup({
+--   dotnet_cmd = "dotnet",              -- this is the default
+--   -- roslyn_version = "4.8.0-3.23475.7", -- this is the default
+--   roslyn_version = "5.0.0-1.25111.6",
+--   on_attach = on_attach,              -- required
+--   capabilities = capabilities,        -- required
+-- })
+-- else
+--   require("roslyn").setup({
+--     cmd = {
+--       "dotnet",
+--       "/home/mmmaellon/.config/nvim/linux/Microsoft.CodeAnalysis.LanguageServer.dll",
+--       "--logLevel=Information",
+--       "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+--       "--stdio",
+--     },
+--     on_attach = on_attach,              -- required
+--     capabilities = capabilities,        -- required
+--   })
+-- end
+
 
 require("mason-tool-installer").setup {
   ensure_installed = {

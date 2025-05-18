@@ -16,25 +16,36 @@ require('persisted').setup({
 
 -- forces it to still save session if we opened it by double-clicking a file
 local persisted = require("persisted")
--- vim.api.nvim_create_autocmd("VimEnter", {
---   nested = true,
---   callback = function()
---     if vim.g.started_with_stdin then
---       return
---     end
---
---     local forceload = false
---     if vim.fn.argc() == 0 then
---       forceload = true
---     elseif vim.fn.argc() == 1 then
---       local dir = vim.fn.expand(vim.fn.argv(0))
---       if dir == '.' then
---         dir = vim.fn.getcwd()
---       end
---
---       forceload = true
---     end
---
---     persisted.autoload({ force = forceload })
---   end,
--- })
+vim.api.nvim_create_autocmd("VimEnter", {
+  nested = true,
+  callback = function()
+    if vim.g.started_with_stdin then
+      return
+    end
+
+    local forceload = false
+    if vim.fn.argc() == 0 then
+      forceload = true
+    elseif vim.fn.argc() == 1 then
+      local dir = vim.fn.expand(vim.fn.argv(0))
+      if dir == '.' then
+        dir = vim.fn.getcwd()
+      end
+
+      forceload = true
+    end
+
+    persisted.autoload({ force = forceload })
+  end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "BufReadPost",
+  callback = function(session)
+    -- Save the currently loaded session passing in the path to the current session
+    persisted.save({ session = vim.g.persisted_loaded_session })
+    vim.notify("Saving Session");
+    -- Delete all of the open buffers
+    -- vim.api.nvim_input("<ESC>:%bd!<CR>")
+  end,
+})

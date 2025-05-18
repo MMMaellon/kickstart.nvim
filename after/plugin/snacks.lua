@@ -31,12 +31,16 @@ local persisted_sessions = function()
   local files = persisted.list()
   -- print(dump(files))
   for _, file in pairs(files) do
+    local separator = vim.fn.has('macunix') and "/" or "\\"
     file = file:gsub("(.*).vim", "%1")
+    -- print("file " .. file)
     local dir, branch = unpack(vim.split(file, "@@", { plain = true }))
-    dir = dir:gsub(".*\\", "")
-    dir = dir:gsub("%%", "\\")
-    dir = dir:gsub("([A-Za-z])[\\/](.*)", "%1:/%2")
-    dir = dir:gsub("\\", "/")
+    dir = dir:gsub(".*" .. separator, "")
+    dir = dir:gsub("%%", separator)
+    if not vim.fn.has('macunix') then
+      dir = dir:gsub("([A-Za-z])[" .. separator .. "/](.*)", "%1:/%2")
+      dir = dir:gsub("\\", "/")
+    end
     if branch ~= nil and branch ~= '' then
       dir = dir .. " : " .. branch
     end

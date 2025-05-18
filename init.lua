@@ -150,8 +150,8 @@ require('lazy').setup({
 	-- },
 	{
 		"olimorris/persisted.nvim",
-		lazy = true,
-		config = true
+		lazy = false,
+		event = "BufReadPre",
 	},
 
 	--allows closing hidden buffers
@@ -290,6 +290,8 @@ require('lazy').setup({
 	{
 		"seblj/roslyn.nvim",
 		ft = "cs",
+		--@module 'roslyn.config'
+		--@type RoslynNvimConfig
 		opts = {
 			-- your configuration comes here; leave empty for default settings
 		}
