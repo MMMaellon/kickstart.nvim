@@ -87,7 +87,7 @@ vim.o.splitright = true;
 vim.o.splitbelow = true;
 
 --Make Neovide Update in a the background
-vim.g.neovide_refresh_rate_idle = 60
+vim.g.neovide_refresh_rate_idle = 24
 
 -- turn on wordwrap
 vim.go.wrap = true;
@@ -122,3 +122,5 @@ vim.loader.enable()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+vim.opt.autochdir = true
