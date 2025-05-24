@@ -11,6 +11,7 @@ require('persisted').setup({
         vim.fn.getcwd() ~= "C:\\Program Files\\Neovide" and
         vim.fn.getcwd() ~= "~" and
         vim.fn.getcwd() ~= "/home/mmmaellon"
+        vim.fn.getcwd() ~= "/var/tmp"
   end,
 })
 
