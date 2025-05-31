@@ -10,7 +10,7 @@ require('persisted').setup({
     return vim.bo.filetype ~= "snacks_dashboard" and not vim.bo.readonly and vim.bo.modifiable and
         vim.fn.getcwd() ~= "C:\\Program Files\\Neovide" and
         vim.fn.getcwd() ~= "~" and
-        vim.fn.getcwd() ~= "/home/mmmaellon"
+        vim.fn.getcwd() ~= "/home/mmmaellon" and
         vim.fn.getcwd() ~= "/var/tmp"
   end,
 })

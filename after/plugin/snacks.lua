@@ -24,7 +24,7 @@ function dump(o)
   end
 end
 
-local gif_path = vim.fn.stdpath("config") .. "/resources/transparent_fauna_loop.gif"
+local gif_path = vim.fn.stdpath("config") .. "/resources/transparent_fauna_loop_cropped.gif"
 local persisted = require("persisted")
 local persisted_sessions = function()
   local dirs = {}
@@ -72,13 +72,13 @@ snacks.config.dashboard.sections = {
       "chafa %s --symbols block+half+wide+space+ascii --colors full --clear --fit-width -w 9 --fg-only --bg %s",
       gif_path, vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
     ),
-    width = 55,
-    height = 30,
-    indent = 3,
+    width = 48,
+    height = 27,
+    indent = 5,
     padding = 1,
     align = "center",
     enabled = function()
-      return vim.o.columns <= 300
+      return vim.o.columns <= 200
     end
   },
   {
@@ -87,13 +87,13 @@ snacks.config.dashboard.sections = {
       "chafa %s --symbols block+half+wide+space+ascii --colors full --clear --fit-width -w 9 --fg-only --bg %s",
       gif_path, vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
     ),
-    -- width = 60,
-    height = 30,
+    -- width = 28,
+    height = 34,
     -- indent = 3,
     padding = 1,
     align = "center",
     enabled = function()
-      return vim.o.columns > 300
+      return vim.o.columns > 200
     end
   },
   -- {
