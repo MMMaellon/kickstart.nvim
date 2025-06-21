@@ -34,16 +34,16 @@ vim.api.nvim_set_keymap('c', '<Right>', 'pumvisible() ? "<Down>" : "<Right>"', {
 -- Disable enter for selecting autocomplete suggestions in input mode
 vim.keymap.set('i', '<CR>', '<CR>', { noremap = true, silent = false })
 
-vim.keymap.set({ 'n', 'x', 'v' }, '<c-c>', '"+y')
-vim.keymap.set({ 'n', 'x', 'v' }, '<c-v>', function()
+vim.keymap.set({ 'n', 'x', 'v' }, '<c-s-c>', '"+y')
+vim.keymap.set({ 'n', 'x', 'v' }, '<c-s-v>', function()
   vim.opt.paste = true;
   vim.cmd('normal "+p')
   vim.opt.paste = false;
 end, { noremap = true, silent = true }
 )
-vim.keymap.set({ 'i' }, '<c-v>', '<c-r><c-p>+')
-vim.keymap.set({ 'n', 'x', 'v' }, '<c-x>', '"+d')
-vim.keymap.set({ 'n', 'x' }, '<m-v>', '<c-v>')
+vim.keymap.set({ 'i' }, '<c-s-v>', '<c-r><c-p>+')
+vim.keymap.set({ 'n', 'x', 'v' }, '<c-s-x>', '"+d')
+-- vim.keymap.set({ 'n', 'x' }, '<m-v>', '<c-v>')
 
 
 
