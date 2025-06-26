@@ -1,12 +1,13 @@
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require('mason').setup({
-registries = {
-    "github:mason-org/mason-registry",
-    "github:Crashdummyy/mason-registry", --Provides roslyn.nvim
-},
+  registries = {
+      "github:mason-org/mason-registry",
+      "github:Crashdummyy/mason-registry", --Provides roslyn.nvim
+  },
 })
-require('mason-lspconfig').setup()
+local mason_lspconfig = require 'mason-lspconfig'
+mason_lspconfig.setup()
 
 local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
@@ -138,7 +139,6 @@ local lsps = {
 -- vim.g.zig_fmt_autosave = 0
 
 -- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -155,13 +155,14 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 --   end,
 -- }
 
+local lspconfig = require('lspconfig')
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(lsps),
   handlers = {
     -- lsp_zero.default_setup,
     function(server_name)
-      require('lspconfig')[server_name].setup {
+      lspconfig[server_name].setup {
         capabilities = capabilities,
         on_attach = on_attach,
         settings = lsps[server_name],
@@ -171,14 +172,40 @@ mason_lspconfig.setup {
   }
 }
 
--- if vim.fn.has('macunix') then
--- require("roslyn").setup({
---   dotnet_cmd = "dotnet",              -- this is the default
---   -- roslyn_version = "4.8.0-3.23475.7", -- this is the default
---   roslyn_version = "5.0.0-1.25111.6",
---   on_attach = on_attach,              -- required
---   capabilities = capabilities,        -- required
--- })
+vim.lsp.config("roslyn", {
+    on_attach = on_attach,
+    settings = {
+        -- Example Settings
+        -- ["csharp|inlay_hints"] = {
+        --     csharp_enable_inlay_hints_for_implicit_object_creation = true,
+        --     csharp_enable_inlay_hints_for_implicit_variable_types = true,
+        -- },
+        -- ["csharp|code_lens"] = {
+        --     dotnet_enable_references_code_lens = true,
+        -- },
+    },
+})
+
+-- if vim.loop.os_uname().sysname == "Linux" then
+--   require("roslyn").setup({
+--     cmd = {
+--       "dotnet",
+--       "/home/mmmaellon/.config/nvim/linux/Microsoft.CodeAnalysis.LanguageServer.dll",
+--       "--logLevel=Information",
+--       "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+--       "--stdio",
+--     },
+--     on_attach = on_attach,              -- required
+--     capabilities = capabilities,        -- required
+--   })
+-- elseif vim.fn.has('macunix') then
+--   require("roslyn").setup({
+--     dotnet_cmd = "dotnet",              -- this is the default
+--     -- roslyn_version = "4.8.0-3.23475.7", -- this is the default
+--     roslyn_version = "5.0.0-1.25111.6",
+--     on_attach = on_attach,              -- required
+--     capabilities = capabilities,        -- required
+--   })
 -- else
 --   require("roslyn").setup({
 --     cmd = {

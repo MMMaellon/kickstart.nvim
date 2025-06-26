@@ -288,7 +288,7 @@ require('lazy').setup({
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ "Issafalcon/lsp-overloads.nvim" },
 	{
-		"seblj/roslyn.nvim",
+		"seblyng/roslyn.nvim",
 		ft = "cs",
 		--@module 'roslyn.config'
 		--@type RoslynNvimConfig

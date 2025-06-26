@@ -20,8 +20,26 @@ local persisted = require("persisted")
 vim.api.nvim_create_autocmd("VimEnter", {
   nested = true,
   callback = function()
+    -- Do nothing if Neovim was started as a pager (e.g., for a git commit)
     if vim.g.started_with_stdin then
       return
+    end
+
+    -- Capture the file arguments passed to the nvim command.
+    -- We will check this *after* loading the session.
+    local files_to_open = {}
+    if vim.fn.argc() > 0 then
+      for i = 0, vim.fn.argc() - 1 do
+        local arg = vim.fn.argv(i)
+
+        vim.notify("ARG " .. i .. ": " .. arg);
+
+        -- We only care about arguments that are actual, readable files.
+        -- This will ignore directories like '.' or 'src/'.
+        if vim.fn.filereadable(arg) == 1 then
+          table.insert(files_to_open, arg)
+        end
+      end
     end
 
     local forceload = false
@@ -37,6 +55,17 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
 
     persisted.autoload({ force = forceload })
+
+    if #files_to_open > 0 then
+      -- vim.fn.fnameescape is important to handle special characters in file paths.
+      -- Open the first file and load it into the current window.
+      vim.cmd("edit " .. vim.fn.fnameescape(files_to_open[1]))
+
+      -- If there are more files, add them to the buffer list without opening them.
+      for i = 2, #files_to_open do
+        vim.cmd("badd " .. vim.fn.fnameescape(files_to_open[i]))
+      end
+    end
   end,
 })
 
