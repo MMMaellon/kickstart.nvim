@@ -1,6 +1,7 @@
-vim.cmd([[ autocmd! BufNewFile, BufRead .*shader set ft=glsl ]])
+vim.cmd([[ autocmd! BufNewFile, BufRead .*shader, .*compute set ft=glsl ]])
 vim.filetype.add({
   extension = {
-    shader = 'glsl' 
+    shader = 'glsl',
+    compute = 'glsl' 
   }
 })

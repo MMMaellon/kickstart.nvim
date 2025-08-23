@@ -7,7 +7,7 @@ require('mason').setup({
   },
 })
 local mason_lspconfig = require 'mason-lspconfig'
-mason_lspconfig.setup()
+-- mason_lspconfig.setup()
 
 local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
@@ -158,7 +158,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local lspconfig = require('lspconfig')
 
 mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(lsps),
+  -- ensure_installed = vim.tbl_keys(lsps),
   handlers = {
     -- lsp_zero.default_setup,
     function(server_name)

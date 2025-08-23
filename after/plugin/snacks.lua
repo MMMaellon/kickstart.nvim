@@ -1,11 +1,25 @@
 local snacks = require('snacks');
+local project_nvim = require("project_nvim")
+local recent_projects = function()
+  projs = project_nvim.get_recent_projects()
+  rev = {}
+  for i=#projs, 1, -1 do
+    rev[#rev+1] = projs[i]
+    if #rev >= 5 then
+      return rev
+    end
+  end
+  return rev
+end
 -- local config = require('snacks.config')
 snacks.config.dashboard.preset = {
   keys = {
     { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
     -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persistence').load({ last = true })" },
-    { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persisted').load({ last = true })" },
-    { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope persisted" },
+    -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persisted').load({ last = true })" },
+    -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persisted').load({ last = true })" },
+    -- { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope persisted" },
+    { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope projects" },
     { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
     { icon = " ", key = "q", desc = "Quit", action = ":qa" },
   }
@@ -25,44 +39,49 @@ function dump(o)
 end
 
 local gif_path = vim.fn.stdpath("config") .. "/resources/transparent_fauna_loop_cropped.gif"
-local persisted = require("persisted")
-local persisted_sessions = function()
-  local dirs = {}
-  local files = persisted.list()
-  -- print(dump(files))
-  for _, file in pairs(files) do
-    local separator = vim.fn.has('macunix') and "/" or "\\"
-    file = file:gsub("(.*).vim", "%1")
-    -- print("file " .. file)
-    local dir, branch = unpack(vim.split(file, "@@", { plain = true }))
-    dir = dir:gsub(".*" .. separator, "")
-    dir = dir:gsub("%%", separator)
-    if not vim.fn.has('macunix') then
-      dir = dir:gsub("([A-Za-z])[" .. separator .. "/](.*)", "%1:/%2")
-      dir = dir:gsub("\\", "/")
-    end
-    if branch ~= nil and branch ~= '' then
-      dir = dir .. " : " .. branch
-    end
-    table.insert(dirs, dir)
-  end
-  return dirs
-end
+-- local persisted = require("persisted")
+-- local persisted_sessions = function()
+--   local dirs = {}
+--   local files = persisted.list()
+--   -- print(dump(files))
+--   for _, file in pairs(files) do
+--     local separator = vim.fn.has('macunix') and "/" or "\\"
+--     file = file:gsub("(.*).vim", "%1")
+--     -- print("file " .. file)
+--     local dir, branch = unpack(vim.split(file, "@@", { plain = true }))
+--     dir = dir:gsub(".*" .. separator, "")
+--     dir = dir:gsub("%%", separator)
+--     if not vim.fn.has('macunix') then
+--       dir = dir:gsub("([A-Za-z])[" .. separator .. "/](.*)", "%1:/%2")
+--       dir = dir:gsub("\\", "/")
+--     end
+--     if branch ~= nil and branch ~= '' then
+--       dir = dir .. " : " .. branch
+--     end
+--     table.insert(dirs, dir)
+--   end
+--   return dirs
+-- end
 
-local open_persisted = function(proj)
-  local dir, branch = unpack(vim.split(proj, " : ", { plain = true }))
-  local utils = require('persisted.utils')
-  local config = require('persisted.config')
-  local dir = utils.make_fs_safe(dir)
+-- local open_persisted = function(proj)
+--   local dir, branch = unpack(vim.split(proj, " : ", { plain = true }))
+--   local utils = require('persisted.utils')
+--   local config = require('persisted.config')
+--   local dir = utils.make_fs_safe(dir)
+--
+--   if config.use_git_branch and persisted.opts.branch ~= false then
+--     if branch then
+--       dir = dir .. "@@" .. branch
+--     end
+--   end
+--
+--   local vim_file = config.save_dir .. dir .. ".vim"
+--   persisted.load({ session = vim_file })
+-- end
 
-  if config.use_git_branch and persisted.opts.branch ~= false then
-    if branch then
-      dir = dir .. "@@" .. branch
-    end
-  end
-
-  local vim_file = config.save_dir .. dir .. ".vim"
-  persisted.load({ session = vim_file })
+local open_project = function(proj)
+  Snacks.dashboard.pick('files', {cwd = proj})
+  -- print(vim.inspect(proj))
 end
 
 snacks.config.dashboard.sections = {
@@ -96,13 +115,6 @@ snacks.config.dashboard.sections = {
       return vim.o.columns > 200
     end
   },
-  -- {
-  --   pane = 2,
-  --   section = "terminal",
-  --   cmd = "colorscript -e square",
-  --   height = 5,
-  --   padding = 1,
-  -- },
   { pane = 2, title = "", section = "keys", gap = 1, padding = 6 },
   { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
   {
@@ -112,9 +124,19 @@ snacks.config.dashboard.sections = {
     section = "projects",
     indent = 2,
     padding = 1,
-    dirs = persisted_sessions,
-    action = open_persisted,
+    dirs = recent_projects,
+    action = open_project,
   },
+  -- {
+  --   pane = 2,
+  --   icon = " ",
+  --   title = "Projects",
+  --   section = "projects",
+  --   indent = 2,
+  --   padding = 1,
+  --   dirs = persisted_sessions,
+  --   action = open_persisted,
+  -- },
   -- {
   --   pane = 2,
   --   icon = " ",

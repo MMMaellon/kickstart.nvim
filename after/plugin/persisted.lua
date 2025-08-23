@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
       for i = 0, vim.fn.argc() - 1 do
         local arg = vim.fn.argv(i)
 
-        vim.notify("ARG " .. i .. ": " .. arg);
+        -- vim.notify("ARG " .. i .. ": " .. arg);
 
         -- We only care about arguments that are actual, readable files.
         -- This will ignore directories like '.' or 'src/'.

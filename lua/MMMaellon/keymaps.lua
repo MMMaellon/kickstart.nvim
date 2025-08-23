@@ -117,3 +117,5 @@ vim.api.nvim_create_user_command('SudoWrite', function()
   vim.cmd('silent! w !pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY tee % >/dev/null') -- Save file using pkexec
   vim.cmd('edit!')                                                                          -- Force reload the file
 end, {})
+
+vim.keymap.set('n', '<leader><Enter>', '<cmd>!foot -D %:p:h<cr>', { desc = "Open External Terminal Here" })
