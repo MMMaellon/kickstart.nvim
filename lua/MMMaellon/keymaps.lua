@@ -118,4 +118,19 @@ vim.api.nvim_create_user_command('SudoWrite', function()
   vim.cmd('edit!')                                                                          -- Force reload the file
 end, {})
 
-vim.keymap.set('n', '<leader><Enter>', '<cmd>!foot -D %:p:h<cr>', { desc = "Open External Terminal Here" })
+vim.keymap.set('n', '<leader><Enter>', function()
+  -- Get the current file's directory
+  local cwd = vim.fn.expand('%:p:h')
+  -- Check the operating system
+  local os_name = vim.loop.os_uname().sysname
+  local command
+  if os_name == "Windows_NT" then
+    -- Windows command
+    command = 'start powershell -NoExit -Command "Set-Location -Path ' .. vim.fn.shellescape(cwd) .. '"'
+  else
+    -- Linux/macOS command (using foot as an example)
+    command = 'foot -D ' .. vim.fn.shellescape(cwd) .. ' > /dev/null 2>&1'
+  end
+  -- Start the job asynchronously
+  vim.fn.jobstart(command, { detach = true })
+end, { desc = "Open External Terminal Here" })
