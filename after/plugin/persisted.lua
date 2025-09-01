@@ -119,7 +119,6 @@ vim.api.nvim_create_autocmd("WinClosed", {
     local window_count = 0;
     local closed_buf_id = session.buf
     local closed_filename = vim.api.nvim_buf_get_name(closed_buf_id)
-    vim.notify("CLOSED: " .. closed_filename)
     for _, win_id in ipairs(vim.api.nvim_list_wins()) do
       local buf_id = vim.api.nvim_win_get_buf(win_id)
       local filename = vim.api.nvim_buf_get_name(buf_id)
@@ -127,7 +126,6 @@ vim.api.nvim_create_autocmd("WinClosed", {
         window_count = window_count + 1;
       end
     end
-    vim.notify("window count " .. window_count)
     if window_count > 0 then
       persisted.save({ session = vim.g.persisted_loaded_session })
     end
