@@ -100,6 +100,9 @@ local lsps = {
   pyright = {
 
   },
+  marksman = {
+
+  },
   -- ,zls = {
   --
   -- }
