@@ -150,10 +150,11 @@ return {
 	},
 
 	-- UI improvements
-	-- {
-	-- 	'stevearc/dressing.nvim',
-	-- 	opts = {},
-	-- },
+	-- This adds the UI thingy that pops out questions into that nice looking box
+	{
+		'stevearc/dressing.nvim',
+		opts = {},
+	},
 
 
 	{
