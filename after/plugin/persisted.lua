@@ -6,12 +6,17 @@ vim.keymap.set("n", "<leader>p", function() vim.cmd(':Telescope persisted') end,
 require('persisted').setup({
   autoload = true,
   should_save = function()
-    -- Do not save if the alpha dashboard is the current filetype
-    return vim.bo.filetype ~= "snacks_dashboard" and not vim.bo.readonly and vim.bo.modifiable and
-        vim.fn.getcwd() ~= "C:\\Program Files\\Neovide" and
-        vim.fn.getcwd() ~= "~" and
-        vim.fn.getcwd() ~= "/home/mmmaellon" and
-        vim.fn.getcwd() ~= "/var/tmp"
+    local bufs = vim.tbl_filter(function(b)
+      if vim.bo[b].readonly or not vim.bo.modifiable then
+        return false
+      end
+      if vim.tbl_contains({"nofile", "nowrite"}, vim.bo[b].buftype) or vim.tbl_contains({ "gitcommit", "gitrebase", "fugitive", "snacks_dashboard" }, vim.bo[b].filetype) or vim.tbl_contains({"C:\\Program Files\\Neovide", "~", "/home/mmmaellon", "/var/tmp"}, vim.fn.getcwd()) then
+        return false
+      end
+      return vim.api.nvim_buf_get_name(b) ~= ""
+    end, vim.api.nvim_list_bufs())
+
+    return #bufs >= 1
   end,
 })
 
