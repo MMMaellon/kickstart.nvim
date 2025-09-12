@@ -67,6 +67,8 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<PageDown>', '<esc>10jzz')
 vim.keymap.set('n', '<PageUp>', '<esc>10kzz')
+vim.keymap.set('v', '<PageDown>', '10jzz')
+vim.keymap.set('v', '<PageUp>', '10kzz')
 -- when searching keep cursor in middle of screen
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
