@@ -99,17 +99,19 @@ local persisted_started = false
 vim.api.nvim_create_autocmd("User", {
   pattern = "PersistedLoadPost",
   callback = function(session)
-    print("We are in Persisted Load Post")
     local duplicate_file = false
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
       local filename = vim.api.nvim_buf_get_name(buf)
-      print("Checking buffer: " .. filename)
       if(filename == file_opened_from_arg) then
-        print("duplicate found")
-        duplicate_file = true
+        local winid = vim.fn.bufwinid(buf)
+        if winid ~= -1 then
+          -- Buffer loaded and visible
+          -- Swap to the correct window
+          vim.api.nvim_set_current_win(winid)
+          duplicate_file = true
+        end
       end
       if not buffer_filter(buf) then
-        print("did not pass filter. Deleting")
         vim.api.nvim_buf_delete(buf, { force = true })
       end
     end
