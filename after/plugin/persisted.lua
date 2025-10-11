@@ -3,19 +3,20 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 require('telescope').load_extension("persisted")
 vim.keymap.set("n", "<leader>p", function() vim.cmd(':Telescope persisted') end, { desc = '[p] Find Projects' })
 
+function buffer_filter(b)
+  if vim.bo[b].readonly or not vim.bo[b].modifiable then
+    return false
+  end
+  if vim.tbl_contains({"nofile", "nowrite"}, vim.bo[b].buftype) or vim.tbl_contains({ "gitcommit", "gitrebase", "fugitive", "snacks_dashboard" }, vim.bo[b].filetype) or vim.tbl_contains({"C:\\Program Files\\Neovide", "~", "/home/mmmaellon", "/var/tmp"}, vim.fn.getcwd()) then
+    return false
+  end
+  return vim.api.nvim_buf_get_name(b) ~= ""
+end
+
 require('persisted').setup({
   autoload = true,
   should_save = function()
-    local bufs = vim.tbl_filter(function(b)
-      if vim.bo[b].readonly or not vim.bo.modifiable then
-        return false
-      end
-      if vim.tbl_contains({"nofile", "nowrite"}, vim.bo[b].buftype) or vim.tbl_contains({ "gitcommit", "gitrebase", "fugitive", "snacks_dashboard" }, vim.bo[b].filetype) or vim.tbl_contains({"C:\\Program Files\\Neovide", "~", "/home/mmmaellon", "/var/tmp"}, vim.fn.getcwd()) then
-        return false
-      end
-      return vim.api.nvim_buf_get_name(b) ~= ""
-    end, vim.api.nvim_list_bufs())
-
+    local bufs = vim.tbl_filter(buffer_filter, vim.api.nvim_list_bufs())
     return #bufs >= 1
   end,
 })
@@ -85,23 +86,38 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "PersistedSavePre",
+--   callback = function()
+--     for buf in filter_buffers(true) do
+--       vim.api.nvim_buf_delete(buf, { force = true })
+--     end
+--   end,
+-- })
+
 local persisted_started = false
 vim.api.nvim_create_autocmd("User", {
   pattern = "PersistedLoadPost",
   callback = function(session)
-    persisted_started = true
-    if file_opened_from_arg ~= "" and  vim.fn.filereadable(file_opened_from_arg) == 1 then
-      -- Loop through each window ID.
-      for _, win_id in ipairs(vim.api.nvim_list_wins()) do
-        local buf_id = vim.api.nvim_win_get_buf(win_id)
-        local filename = vim.api.nvim_buf_get_name(buf_id)
-        if filename == file_opened_from_arg then
-          return
-        end
+    print("We are in Persisted Load Post")
+    local duplicate_file = false
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      local filename = vim.api.nvim_buf_get_name(buf)
+      print("Checking buffer: " .. filename)
+      if(filename == file_opened_from_arg) then
+        print("duplicate found")
+        duplicate_file = true
       end
+      if not buffer_filter(buf) then
+        print("did not pass filter. Deleting")
+        vim.api.nvim_buf_delete(buf, { force = true })
+      end
+    end
+    if not duplicate_file and file_opened_from_arg ~= "" and  vim.fn.filereadable(file_opened_from_arg) == 1 then
       vim.cmd("vsplit " .. file_opened_from_arg);
       file_opened_from_arg = ""
     end
+    vim.cmd("wincmd =")
   end,
 })
 
