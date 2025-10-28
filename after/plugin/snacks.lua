@@ -88,7 +88,8 @@ snacks.config.dashboard.sections = {
   {
     section = "terminal",
     cmd = string.format(
-      "chafa %s --probe off --symbols block+half+wide+space+ascii --colors full --clear --fit-width -w 9 --fg-only --bg %s",
+      "chafa %s --probe off --symbols block+half+wide+space+ascii --colors full --clear --view-size=48x27 -w 9 --fg-only --bg %s",
+      -- "chafa %s --view-size=48x27",
       gif_path, vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
     ),
     width = 48,
@@ -97,16 +98,16 @@ snacks.config.dashboard.sections = {
     padding = 1,
     align = "center",
     enabled = function()
-      return vim.o.columns <= 200
+      return vim.o.columns <= 200 and vim.o.lines > 60
     end
   },
   {
     section = "terminal",
     cmd = string.format(
-      "chafa %s --probe off --symbols block+half+wide+space+ascii --colors full --clear --fit-width -w 9 --fg-only --bg %s",
+      "chafa %s --probe off --symbols block+half+wide+space+ascii --colors full --clear --view-size=60x34 -w 9 --fg-only --bg %s",
       gif_path, vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
     ),
-    -- width = 28,
+    width = 60,
     height = 34,
     -- indent = 3,
     padding = 1,
