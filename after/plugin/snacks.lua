@@ -98,7 +98,7 @@ snacks.config.dashboard.sections = {
     padding = 1,
     align = "center",
     enabled = function()
-      return vim.o.columns <= 200 and vim.o.lines > 60
+      return vim.o.columns <= 123 and vim.o.lines > 60 or vim.o.columns > 123 and vim.o.columns <= 200
     end
   },
   {
