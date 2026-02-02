@@ -20,7 +20,7 @@ snacks.config.dashboard.preset = {
     -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persisted').load({ last = true })" },
     -- { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope persisted" },
     { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope projects" },
-    { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+    { icon = " ", key = "c", desc = "Config", action = ":Telescope file_browser path=~/.config select_buffer=true<CR>" },
     { icon = " ", key = "q", desc = "Quit", action = ":qa" },
   }
 }

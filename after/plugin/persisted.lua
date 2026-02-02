@@ -57,16 +57,16 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end
 
     local forceload = false
-    if vim.fn.argc() == 0 then
-      forceload = true
-    elseif vim.fn.argc() == 1 then
-      local dir = vim.fn.expand(vim.fn.argv(0))
-      if dir == '.' then
-        dir = vim.fn.getcwd()
-      end
-
-      forceload = true
-    end
+    -- if vim.fn.argc() == 0 then
+    --   forceload = true
+    -- elseif vim.fn.argc() == 1 then
+    --   local dir = vim.fn.expand(vim.fn.argv(0))
+    --   if dir == '.' then
+    --     dir = vim.fn.getcwd()
+    --   end
+    --
+    --   forceload = true
+    -- end
 
     persisted.autoload({ force = forceload })
     -- persisted.load();
