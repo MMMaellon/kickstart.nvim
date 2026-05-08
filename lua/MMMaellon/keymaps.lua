@@ -131,7 +131,8 @@ vim.keymap.set('n', '<leader><Enter>', function()
     command = 'start powershell -NoExit -Command "Set-Location -Path ' .. vim.fn.shellescape(cwd) .. '"'
   else
     -- Linux/macOS command (using foot as an example)
-    command = 'foot -D ' .. vim.fn.shellescape(cwd) .. ' > /dev/null 2>&1'
+    -- command = 'foot -D ' .. vim.fn.shellescape(cwd) .. ' > /dev/null 2>&1'
+    command = 'kitty -d ' .. vim.fn.shellescape(cwd) .. ' > /dev/null 2>&1'
   end
   -- Start the job asynchronously
   vim.fn.jobstart(command, { detach = true })

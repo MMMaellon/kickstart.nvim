@@ -14,7 +14,7 @@ function buffer_filter(b)
 end
 
 require('persisted').setup({
-  autoload = true,
+  autoload = false,
   should_save = function()
     local bufs = vim.tbl_filter(buffer_filter, vim.api.nvim_list_bufs())
     return #bufs >= 1

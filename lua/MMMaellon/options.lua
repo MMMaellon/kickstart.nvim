@@ -51,7 +51,7 @@ vim.wo.cursorline = true
 vim.o.cursorline = true
 
 --Font
-vim.opt.guifont = { 'FiraCode Nerd Font', ':h14' } -- is opt because it only applies to neovide
+vim.opt.guifont = { 'Fira Code', ':h12' } -- is opt because it only applies to neovide
 
 --Set proper clipboard
 vim.opt.clipboard = ''
@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd('OptionSet', {
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
-        vim.highlight.on_yank()
+        vim.hl.on_yank()
     end,
     group = highlight_group,
     pattern = '*',
