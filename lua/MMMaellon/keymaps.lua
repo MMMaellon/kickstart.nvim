@@ -65,8 +65,8 @@ vim.keymap.set('n', 'J', 'mzJ`z')
 -- keep cursor in place while using c-d and c-u
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
-vim.keymap.set({'n', 'i'}, '<PageDown>', '<esc>10jzz')
-vim.keymap.set({'n', 'i'}, '<PageUp>', '<esc>10kzz')
+vim.keymap.set({ 'n', 'i' }, '<PageDown>', '<esc>10jzz')
+vim.keymap.set({ 'n', 'i' }, '<PageUp>', '<esc>10kzz')
 vim.keymap.set('v', '<PageDown>', '10jzz')
 vim.keymap.set('v', '<PageUp>', '10kzz')
 -- when searching keep cursor in middle of screen
@@ -77,8 +77,32 @@ vim.keymap.set('n', 'Q', '<nop>')
 -- jump to prev/next error/lint thing
 -- vim.keymap.set('n', '<C-j>', '<cmd>lua vim.diagnostic.goto_prev<CR>zz')
 -- vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
-vim.keymap.set('n', '<leader>j', '<cmd>lua vim.diagnostic.goto_next()<CR>zz', { desc = "Previous Diagnostic" })
-vim.keymap.set('n', '<leader>k', '<cmd>lua vim.diagnostic.goto_prev()<CR>zz', { desc = "Next Diagnostic" })
+local float_winnr = nil
+
+local function open_diag_float()
+  local _, winnr = vim.diagnostic.open_float()
+  float_winnr = winnr
+end
+
+local function close_diag_float()
+  if float_winnr and vim.api.nvim_win_is_valid(float_winnr) then
+    vim.api.nvim_win_close(float_winnr, false)
+    float_winnr = nil
+  end
+end
+
+vim.keymap.set('n', '<leader>j', function()
+  close_diag_float()
+  vim.diagnostic.goto_next({ float = false })
+  vim.schedule(open_diag_float)
+end, { desc = "Next Diagnostic" })
+
+vim.keymap.set('n', '<leader>k', function()
+  close_diag_float()
+  vim.diagnostic.goto_prev({ float = false })
+  vim.schedule(open_diag_float)
+end, { desc = "Previous Diagnostic" })
+
 -- quick find and replace
 vim.keymap.set('n', '<leader>s', [[:%s/<C-r><C-w>/<C-r><C-w>/gIc<Left><Left><Left><Left><Space><Backspace>]],
   { desc = 'Auto :s///g replace' })

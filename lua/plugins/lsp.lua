@@ -128,6 +128,9 @@ return {
 			roc_ls = {
 
 			},
+			elmls = {
+
+			},
 			bashls = {
 
 			},
