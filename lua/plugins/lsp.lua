@@ -6,7 +6,6 @@ return {
 		"j-hui/fidget.nvim",
 		"mhartington/formatter.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		{ "Issafalcon/lsp-overloads.nvim", lazy = true },
 		{ "seblyng/roslyn.nvim",           lazy = true },
 	},
 	event = {
@@ -56,12 +55,7 @@ return {
 
 				nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
 
-				if client and client.server_capabilities.signatureHelpProvider then
-					require('lsp-overloads').setup(client, {})
-					nmap('<C-s>', ":LspOverloadsSignature<CR>", 'Signature Documentation')
-				else
-					nmap('<C-s>', vim.lsp.buf.signature_help, 'Signature Documentation')
-				end
+				nmap('<C-s>', vim.lsp.buf.signature_help, 'Signature Documentation')
 			end,
 		})
 
@@ -130,6 +124,8 @@ return {
 			},
 			elmls = {
 
+			},
+			zls = {
 			},
 			bashls = {
 

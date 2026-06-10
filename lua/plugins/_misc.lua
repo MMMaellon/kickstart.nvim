@@ -8,7 +8,7 @@ return {
 	'nvim-treesitter/nvim-treesitter',
 	dependencies = {
 		'nvim-treesitter/nvim-treesitter-textobjects',
-		'JoosepAlviste/nvim-ts-context-commentstring',
+		'nvim-treesitter/nvim-treesitter-context',
 	},
 	build = ':TSUpdate',
 
@@ -25,9 +25,6 @@ return {
 			}
 		}
 	},
-
-	-- "gc" to comment visual regions/lines
-	{ 'numToStr/Comment.nvim',             opts = {} },
 
 	-- fast marks
 	{
@@ -107,18 +104,6 @@ return {
 	{
 		'nvim-telescope/telescope-file-browser.nvim',
 		dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
-	},
-
-	{
-		"ahmedkhalf/project.nvim",
-		config = function()
-			require('telescope').load_extension('projects')
-			require('project_nvim').setup {
-				patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "*.sln" },
-				-- detection_methods = {"pattern", "lsp"}
-			}
-		end,
-		opts = {},
 	},
 
 	-- Terminal

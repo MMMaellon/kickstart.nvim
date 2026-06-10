@@ -1,25 +1,7 @@
 local snacks = require('snacks');
-local project_nvim = require("project_nvim")
-local recent_projects = function()
-  projs = project_nvim.get_recent_projects()
-  rev = {}
-  for i=#projs, 1, -1 do
-    rev[#rev+1] = projs[i]
-    if #rev >= 5 then
-      return rev
-    end
-  end
-  return rev
-end
--- local config = require('snacks.config')
 snacks.config.dashboard.preset = {
   keys = {
     { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-    -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persistence').load({ last = true })" },
-    -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persisted').load({ last = true })" },
-    -- { icon = " ", key = "l", desc = "Last Session", action = ":lua require('persisted').load({ last = true })" },
-    -- { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope persisted" },
-    { icon = " ", key = "r", desc = "Recent Projects", action = ":Telescope projects" },
     { icon = " ", key = "c", desc = "Config", action = ":Telescope file_browser path=~/.config select_buffer=true<CR>" },
     { icon = " ", key = "q", desc = "Quit", action = ":qa" },
   }
@@ -79,10 +61,6 @@ local gif_path = vim.fn.stdpath("config") .. "/resources/transparent_fauna_loop_
 --   persisted.load({ session = vim_file })
 -- end
 
-local open_project = function(proj)
-  Snacks.dashboard.pick('files', {cwd = proj})
-  -- print(vim.inspect(proj))
-end
 
 snacks.config.dashboard.sections = {
   {
@@ -118,16 +96,6 @@ snacks.config.dashboard.sections = {
   },
   { pane = 2, title = "", section = "keys", gap = 1, padding = 6 },
   { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-  {
-    pane = 2,
-    icon = " ",
-    title = "Projects",
-    section = "projects",
-    indent = 2,
-    padding = 1,
-    dirs = recent_projects,
-    action = open_project,
-  },
   -- {
   --   pane = 2,
   --   icon = " ",
