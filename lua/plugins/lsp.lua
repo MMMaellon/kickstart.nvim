@@ -53,7 +53,7 @@ return {
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 				end, '[W]orkspace [L]ist Folders')
 
-				nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+				nmap('<C-j>', vim.lsp.buf.hover, 'Hover Documentation')
 
 				nmap('<C-s>', vim.lsp.buf.signature_help, 'Signature Documentation')
 			end,

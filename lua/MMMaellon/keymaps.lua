@@ -70,9 +70,6 @@ vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 -- prevent Q from starting Ex mode (just type : instead)
 vim.keymap.set('n', 'Q', '<nop>')
--- jump to prev/next error/lint thing
--- vim.keymap.set('n', '<C-j>', '<cmd>lua vim.diagnostic.goto_prev<CR>zz')
--- vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz')
 local float_winnr = nil
 
 local function open_diag_float()
