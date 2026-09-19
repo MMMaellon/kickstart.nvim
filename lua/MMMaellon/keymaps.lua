@@ -79,8 +79,6 @@ vim.keymap.set('v', '<PageUp>', '10kzz')
 -- when searching keep cursor in middle of screen
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
--- prevent Q from starting Ex mode (just type : instead)
-vim.keymap.set('n', 'Q', '<nop>')
 local float_winnr = nil
 
 local function open_diag_float()

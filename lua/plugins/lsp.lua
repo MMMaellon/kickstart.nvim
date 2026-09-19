@@ -6,7 +6,7 @@ return {
 		"j-hui/fidget.nvim",
 		"mhartington/formatter.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		{ "seblyng/roslyn.nvim",           lazy = true },
+		-- { "seblyng/roslyn.nvim",           lazy = true },
 	},
 	event = {
 		"BufReadPre",
@@ -18,7 +18,7 @@ return {
 		require('mason').setup({
 			registries = {
 				"github:mason-org/mason-registry",
-				"github:Crashdummyy/mason-registry", --Provides roslyn.nvim
+				-- "github:Crashdummyy/mason-registry", --Provides roslyn.nvim
 			},
 		})
 		local mason_lspconfig = require 'mason-lspconfig'
@@ -40,7 +40,9 @@ return {
 				nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
 				nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-				nmap('gr', function() require('telescope.builtin').lsp_references({include_current_line = true, jump_type = "never"}) end, '[G]oto [R]eferences')
+				nmap('gr',
+					function() require('telescope.builtin').lsp_references({ include_current_line = true, jump_type =
+						"never" }) end, '[G]oto [R]eferences')
 				nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 				nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 				nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
@@ -136,16 +138,19 @@ return {
 			ts_ls = {
 				filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
 			},
-			roslyn = {
-				cmd = {
-					"roslyn",
-					"--logLevel=Information",
-					"--extensionLogDirectory=" .. vim.fn.stdpath("state") .. "/roslyn",
-					"--stdio",
-				},
-				root_markers = { "*.sln", "*.csproj", "omnisharp.json" },
-				filetypes = { "cs", "vb" },
+			roslyn_ls = {
+
 			}
+			-- roslyn = {
+			-- 	cmd = {
+			-- 		"roslyn",
+			-- 		"--logLevel=Information",
+			-- 		"--extensionLogDirectory=" .. vim.fn.stdpath("state") .. "/roslyn",
+			-- 		"--stdio",
+			-- 	},
+			-- 	root_markers = { "*.sln", "*.csproj", "omnisharp.json" },
+			-- 	filetypes = { "cs", "vb" },
+			-- }
 		}
 
 		-- Ensure the servers above are installed
