@@ -4,14 +4,6 @@ return {
 	'tpope/vim-fugitive', --git commands with :G
 	-- Detect tabstop and shiftwidth automatically
 	'tpope/vim-sleuth',
-	-- Highlight, edit, and navigate code
-	'nvim-treesitter/nvim-treesitter',
-	dependencies = {
-		'nvim-treesitter/nvim-treesitter-textobjects',
-		'nvim-treesitter/nvim-treesitter-context',
-	},
-	build = ':TSUpdate',
-
 	-- git signs in the gutter
 	{
 		'lewis6991/gitsigns.nvim',
