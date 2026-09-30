@@ -119,8 +119,8 @@ return {
 			lua_ls = {
 
 			},
-			gopls = {
-			},
+			-- gopls = {
+			-- },
 			roc_ls = {
 
 			},
@@ -193,7 +193,7 @@ return {
 		require("mason-tool-installer").setup {
 			ensure_installed = {
 				'black',
-				'gopls',
+				-- 'gopls',
 			}
 		}
 
