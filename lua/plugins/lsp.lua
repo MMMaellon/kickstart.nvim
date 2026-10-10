@@ -119,8 +119,6 @@ return {
 			lua_ls = {
 
 			},
-			gopls = {
-			},
 			roc_ls = {
 
 			},
@@ -152,6 +150,10 @@ return {
 			-- 	filetypes = { "cs", "vb" },
 			-- }
 		}
+
+		if vim.fn.has('macunix') == 0 then
+			lsps.gopls = {}
+		end
 
 		-- Ensure the servers above are installed
 
@@ -193,7 +195,6 @@ return {
 		require("mason-tool-installer").setup {
 			ensure_installed = {
 				'black',
-				'gopls',
 			}
 		}
 
